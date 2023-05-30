@@ -7,14 +7,14 @@
 import Foundation
 import UIKit
 
-class CurrencyListWireFrame: CurrencyListWireFrameProtocol {
+class CurrencyListRouter: CurrencyListRouterProtocol {
     
     var currencyListPresenter : CurrencyListPresenter?
     var converterPresenter : ConverterPresenter?
     
-    var baseWireframe : BaseWireframe?
+    var baseRouter : BaseRouter?
     var currencyListView : CurrencyListView?
-    var currencyListWireFrame : CurrencyListWireFrame?
+    var currencyListRouter : CurrencyListRouter?
     var presenter: CurrencyListPresenterProtocol & CurrencyListInteractorOutputProtocol = CurrencyListPresenter()
     
     func presentCurrencyListModule(fromView window: AnyObject) {
@@ -24,11 +24,11 @@ class CurrencyListWireFrame: CurrencyListWireFrameProtocol {
         currencyListView.presenter = currencyListPresenter
         currencyListPresenter?.view = currencyListView
 
-        baseWireframe?.showRootViewController(currencyListView, window: window as! UIWindow)
+        baseRouter?.showRootViewController(currencyListView, window: window as! UIWindow)
     }
     
     func showCurrencyListViewController() {
-        self.currencyListWireFrame?.presentCurrencyListModule(fromView: currencyListView!)
+        self.currencyListRouter?.presentCurrencyListModule(fromView: currencyListView!)
     }
     
     func currencyListModule() -> CurrencyListView {
@@ -40,7 +40,7 @@ class CurrencyListWireFrame: CurrencyListWireFrameProtocol {
          
     }
     
-    func dismissCurrencyListWithSelectedData(_ converterItem: CurrencyListItem) {
+    func dismissCurrencyListWithSelectedData(_ converterItem: Currency) {
          
     }
 }

@@ -7,10 +7,10 @@
 import Foundation
 import UIKit
 
-class ConverterWireFrame: ConverterWireFrameProtocol {
-    var baseWireframe : BaseWireframe?
+class ConverterRouter: ConverterRouterProtocol {
+    var baseRouter : BaseRouter?
     var converterView : ConverterView?
-    var currencyListWireFrame : CurrencyListWireFrame?
+    var currencyListRouter : CurrencyListRouter?
     var presenter: ConverterPresenterProtocol & ConverterInteractorOutputProtocol = ConverterPresenter()
     
     func presentConverterModule(fromView window: AnyObject) {
@@ -20,11 +20,11 @@ class ConverterWireFrame: ConverterWireFrameProtocol {
         
         presenter.view = view
         converterView = view
-        baseWireframe?.showRootViewController(view, window: window as! UIWindow)
+        baseRouter?.showRootViewController(view, window: window as! UIWindow)
     }
     
     func showCurrencyListViewController() {
-        self.currencyListWireFrame?.presentCurrencyListModule(fromView: converterView!)
+        self.currencyListRouter?.presentCurrencyListModule(fromView: converterView!)
     }
     
     func converterModule() -> UIViewController {

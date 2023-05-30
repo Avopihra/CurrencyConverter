@@ -9,7 +9,7 @@ import UIKit
 
 class AppCoordinator {
         
-    var converterWireFrame = ConverterWireFrame()
+    var converterRouter = ConverterRouter()
     private let window: UIWindow
     
     init(window: UIWindow) {
@@ -19,6 +19,6 @@ class AppCoordinator {
     //MARK: - Build Modules
 
     func installRootViewController() {
-        converterWireFrame.presentConverterModule(fromView: window)
+        converterRouter.presentConverterModule(fromView: window)
     }
 }

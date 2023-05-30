@@ -13,17 +13,17 @@ protocol CurrencyListViewProtocol: AnyObject {
     
 }
 
-protocol CurrencyListWireFrameProtocol: AnyObject {
+protocol CurrencyListRouterProtocol: AnyObject {
     func presentCurrencyListModule(fromView view: UIViewController)
-    func dismissCurrencyListWithSelectedData(_ converterItem : CurrencyListItem)
-    // PRESENTER -> WIREFRAME
+    func dismissCurrencyListWithSelectedData(_ converterItem : Currency)
+    // PRESENTER -> router
     
 }
 
 protocol CurrencyListPresenterProtocol: AnyObject {
     var view: CurrencyListViewProtocol? { get set }
     var interactor: CurrencyListInteractorInputProtocol? { get set }
-    var wireFrame: CurrencyListWireFrameProtocol? { get set }
+    var router: CurrencyListRouterProtocol? { get set }
     // VIEW -> PRESENTER
 }
 

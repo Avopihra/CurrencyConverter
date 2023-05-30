@@ -9,7 +9,7 @@ import Foundation
 class CurrencyListPresenter: CurrencyListPresenterProtocol, CurrencyListInteractorOutputProtocol {
     weak var view: CurrencyListViewProtocol?
     var interactor: CurrencyListInteractorInputProtocol?
-    var wireFrame: CurrencyListWireFrameProtocol?
+    var router: CurrencyListRouterProtocol?
     
     init() {}
     

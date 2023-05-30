@@ -9,8 +9,7 @@ import UIKit
 
 class CurrencyListView: UIViewController {
     
-    var presenter: CurrencyListPresenterProtocol?
-
+    var presenter: CurrencyListPresenterProtocol?    
 
     override func viewDidLoad() {
         super.viewDidLoad()

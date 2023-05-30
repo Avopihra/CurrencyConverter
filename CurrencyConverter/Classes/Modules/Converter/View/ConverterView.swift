@@ -5,9 +5,9 @@
 //
 
 import Foundation
-import UIKit
 
-class ConverterView: UIViewController {
+class ConverterView: UIViewController, ConverterViewProtocol {
+    
     
     var presenter: ConverterPresenterProtocol?
 
@@ -22,6 +22,8 @@ class ConverterView: UIViewController {
    
 }
 
+
 extension ConverterView: ConverterViewProtocol {
 
+  
 }

@@ -16,14 +16,12 @@
 		CE89CE622A25CE210002473D /* CurrencyListWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE462A25CE200002473D /* CurrencyListWireFrame.swift */; };
 		CE89CE632A25CE210002473D /* CurrencyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE482A25CE200002473D /* CurrencyListView.swift */; };
 		CE89CE642A25CE210002473D /* CurrencyListProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE4A2A25CE200002473D /* CurrencyListProtocols.swift */; };
-		CE89CE652A25CE210002473D /* CurrencyListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE4C2A25CE200002473D /* CurrencyListItem.swift */; };
 		CE89CE662A25CE210002473D /* CurrencyListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE4D2A25CE200002473D /* CurrencyListInteractor.swift */; };
 		CE89CE672A25CE210002473D /* ConverterLocalDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE512A25CE210002473D /* ConverterLocalDataManager.swift */; };
 		CE89CE682A25CE210002473D /* ConverterAPIDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE532A25CE210002473D /* ConverterAPIDataManager.swift */; };
 		CE89CE692A25CE210002473D /* ConverterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE552A25CE210002473D /* ConverterPresenter.swift */; };
 		CE89CE6A2A25CE210002473D /* ConverterWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE572A25CE210002473D /* ConverterWireFrame.swift */; };
 		CE89CE6C2A25CE210002473D /* ConverterProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE5B2A25CE210002473D /* ConverterProtocols.swift */; };
-		CE89CE6D2A25CE210002473D /* ConverterItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE5D2A25CE210002473D /* ConverterItem.swift */; };
 		CE89CE6E2A25CE210002473D /* ConverterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE5E2A25CE210002473D /* ConverterInteractor.swift */; };
 		CE89CE702A25CF5C0002473D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE6F2A25CF5C0002473D /* AppCoordinator.swift */; };
 		CE89CE722A25DB090002473D /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE712A25DB090002473D /* Common.swift */; };
@@ -38,6 +36,8 @@
 		CE89CE8A2A25E1990002473D /* ReferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE892A25E1990002473D /* ReferenceManager.swift */; };
 		CE89CE8C2A25E5380002473D /* CurrencyListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE89CE8B2A25E5380002473D /* CurrencyListView.xib */; };
 		CE89CE8E2A25E7E90002473D /* BaseWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE8D2A25E7E90002473D /* BaseWireframe.swift */; };
+		CE89CE942A262FCE0002473D /* ConvertibleCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE932A262FCE0002473D /* ConvertibleCurrency.swift */; };
+		CE89CE972A2642A70002473D /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE962A2642A70002473D /* Currency.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,14 +52,12 @@
 		CE89CE462A25CE200002473D /* CurrencyListWireFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyListWireFrame.swift; sourceTree = "<group>"; };
 		CE89CE482A25CE200002473D /* CurrencyListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyListView.swift; sourceTree = "<group>"; };
 		CE89CE4A2A25CE200002473D /* CurrencyListProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyListProtocols.swift; sourceTree = "<group>"; };
-		CE89CE4C2A25CE200002473D /* CurrencyListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyListItem.swift; sourceTree = "<group>"; };
 		CE89CE4D2A25CE200002473D /* CurrencyListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyListInteractor.swift; sourceTree = "<group>"; };
 		CE89CE512A25CE210002473D /* ConverterLocalDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConverterLocalDataManager.swift; sourceTree = "<group>"; };
 		CE89CE532A25CE210002473D /* ConverterAPIDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConverterAPIDataManager.swift; sourceTree = "<group>"; };
 		CE89CE552A25CE210002473D /* ConverterPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConverterPresenter.swift; sourceTree = "<group>"; };
 		CE89CE572A25CE210002473D /* ConverterWireFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConverterWireFrame.swift; sourceTree = "<group>"; };
 		CE89CE5B2A25CE210002473D /* ConverterProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConverterProtocols.swift; sourceTree = "<group>"; };
-		CE89CE5D2A25CE210002473D /* ConverterItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConverterItem.swift; sourceTree = "<group>"; };
 		CE89CE5E2A25CE210002473D /* ConverterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConverterInteractor.swift; sourceTree = "<group>"; };
 		CE89CE6F2A25CF5C0002473D /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		CE89CE712A25DB090002473D /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
@@ -74,6 +72,8 @@
 		CE89CE892A25E1990002473D /* ReferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceManager.swift; sourceTree = "<group>"; };
 		CE89CE8B2A25E5380002473D /* CurrencyListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrencyListView.xib; sourceTree = "<group>"; };
 		CE89CE8D2A25E7E90002473D /* BaseWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWireframe.swift; sourceTree = "<group>"; };
+		CE89CE932A262FCE0002473D /* ConvertibleCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertibleCurrency.swift; sourceTree = "<group>"; };
+		CE89CE962A2642A70002473D /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,8 +235,8 @@
 		CE89CE4B2A25CE200002473D /* Interactor */ = {
 			isa = PBXGroup;
 			children = (
-				CE89CE4C2A25CE200002473D /* CurrencyListItem.swift */,
 				CE89CE4D2A25CE200002473D /* CurrencyListInteractor.swift */,
+				CE89CE962A2642A70002473D /* Currency.swift */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -315,8 +315,8 @@
 		CE89CE5C2A25CE210002473D /* Interactor */ = {
 			isa = PBXGroup;
 			children = (
-				CE89CE5D2A25CE210002473D /* ConverterItem.swift */,
 				CE89CE5E2A25CE210002473D /* ConverterInteractor.swift */,
+				CE89CE932A262FCE0002473D /* ConvertibleCurrency.swift */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -453,9 +453,10 @@
 				CE89CE222A25CB050002473D /* AppDelegate.swift in Sources */,
 				CE89CE792A25DBFC0002473D /* UIViewController+Extension.swift in Sources */,
 				CE89CE702A25CF5C0002473D /* AppCoordinator.swift in Sources */,
+				CE89CE942A262FCE0002473D /* ConvertibleCurrency.swift in Sources */,
 				CE89CE812A25DF010002473D /* ConverterView.swift in Sources */,
-				CE89CE6D2A25CE210002473D /* ConverterItem.swift in Sources */,
 				CE89CE842A25DFE30002473D /* HapticManager.swift in Sources */,
+				CE89CE972A2642A70002473D /* Currency.swift in Sources */,
 				CE89CE8E2A25E7E90002473D /* BaseWireframe.swift in Sources */,
 				CE89CE642A25CE210002473D /* CurrencyListProtocols.swift in Sources */,
 				CE89CE722A25DB090002473D /* Common.swift in Sources */,
@@ -463,7 +464,6 @@
 				CE89CE672A25CE210002473D /* ConverterLocalDataManager.swift in Sources */,
 				CE89CE632A25CE210002473D /* CurrencyListView.swift in Sources */,
 				CE89CE882A25E1690002473D /* AnimationManager.swift in Sources */,
-				CE89CE652A25CE210002473D /* CurrencyListItem.swift in Sources */,
 				CE89CE862A25E1150002473D /* AlertManager.swift in Sources */,
 				CE89CE602A25CE210002473D /* CurrencyListAPIDataManager.swift in Sources */,
 				CE89CE622A25CE210002473D /* CurrencyListWireFrame.swift in Sources */,
