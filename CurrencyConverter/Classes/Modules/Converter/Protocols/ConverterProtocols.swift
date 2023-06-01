@@ -7,18 +7,15 @@
 import Foundation
 import UIKit
 
-enum CurrencySide {
-    case lhs
-    case rhs
-}
-
 //MARK: - VIEW
 
 protocol ConverterViewProtocol: AnyObject {
     var presenter: ConverterPresenterProtocol? { get set }
     
     // PRESENTER -> VIEW
-    func updateValue()
+    func setupCountryCode(_ code: String, for type: CountryCodeType)
+    func updateOutput(value: String)
+    func showError(message: String)
 }
 
 //MARK: - ROUTER
@@ -39,8 +36,10 @@ protocol ConverterPresenterProtocol: AnyObject {
     var router: ConverterRouterProtocol? { get set }
     
     //VIEW -> PRESENTER
-    func didSelect(currency: Currency?, forSide side: CurrencySide)
-    func swapTwoValues(from lhs: inout Currency, to rhs: inout Currency)
+    func didSelect(from type: CountryCodeType)
+    func swapContryCodes(from base: inout String, to quote: inout String)
+    func refresh()
+    
 }
 
 //MARK: - INTERACTOR

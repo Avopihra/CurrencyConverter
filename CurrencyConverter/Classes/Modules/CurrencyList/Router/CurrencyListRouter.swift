@@ -27,9 +27,9 @@ class CurrencyListRouter: CurrencyListRouterProtocol {
         baseRouter?.showRootViewController(currencyListView, window: window as! UIWindow)
     }
     
-    func showCurrencyListViewController() {
-        self.currencyListRouter?.presentCurrencyListModule(fromView: currencyListView!)
-    }
+//    func showCurrencyListViewController() {
+//        self.currencyListRouter?.presentCurrencyListModule(fromView: currencyListView!)
+//    }
     
     func currencyListModule() -> CurrencyListView {
         let viewController = CurrencyListView.loadFromNib()
@@ -37,7 +37,7 @@ class CurrencyListRouter: CurrencyListRouterProtocol {
     }
     
     func presentCurrencyListModule(fromView view: UIViewController) {
-         
+        view.navigationController?.pushViewController(currencyListModule(), animated: true)
     }
     
     func dismissCurrencyListWithSelectedData(_ converterItem: Currency) {

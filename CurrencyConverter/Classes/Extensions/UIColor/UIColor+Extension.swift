@@ -11,13 +11,9 @@ import UIKit
 
 extension UIColor {
    
-    static let buttonStandard = UIColor("25D366")
+    static let grayBorder = UIColor("DADADA")
+    static let grayTitle = UIColor("BFBFBF")
 
-    static let buttonGray = UIColor("BDBDBD")
-    static let buttonBorder1 = UIColor("2F6CDD")
-    static let buttonBorder2 = UIColor("2F6CDD").withAlphaComponent(0.3)
-    static let buttonBackground1 = UIColor("2F6CDD").withAlphaComponent(0.3)
-    static let buttonBackground2 = UIColor("2F6CDD").withAlphaComponent(0.1)
 }
 
 extension UIColor {

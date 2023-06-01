@@ -24,6 +24,7 @@ protocol CurrencyListPresenterProtocol: AnyObject {
     var view: CurrencyListViewProtocol? { get set }
     var interactor: CurrencyListInteractorInputProtocol? { get set }
     var router: CurrencyListRouterProtocol? { get set }
+    var rowsCount: Int { get }
     // VIEW -> PRESENTER
 }
 

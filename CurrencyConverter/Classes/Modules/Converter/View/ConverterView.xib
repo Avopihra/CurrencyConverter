@@ -10,6 +10,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ConverterView" customModule="CurrencyConverter" customModuleProvider="target">
             <connections>
+                <outlet property="baseCodeView" destination="T3c-6Y-qVI" id="PXQ-KY-3dK"/>
+                <outlet property="quoteCodeView" destination="cgr-DT-bRX" id="AWz-xH-HRM"/>
+                <outlet property="swapButton" destination="pu3-kZ-tiG" id="s3P-cc-kE1"/>
                 <outlet property="view" destination="iN0-l3-epB" id="3fZ-bP-e5c"/>
             </connections>
         </placeholder>
@@ -17,9 +20,73 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oQy-hn-Mnw">
+                    <rect key="frame" x="24" y="32" width="272" height="56"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T3c-6Y-qVI" customClass="CustomView" customModule="CurrencyConverter" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="114" height="56"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="AhG-wO-onX"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="buY-eD-7aF">
+                            <rect key="frame" x="114" y="0.0" width="44" height="56"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow.right.arrow.left" translatesAutoresizingMaskIntoConstraints="NO" id="fKv-DI-l0v">
+                                    <rect key="frame" x="10" y="16" width="24" height="24"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="24" id="KZJ-S7-RTD"/>
+                                        <constraint firstAttribute="height" constant="24" id="ii3-nv-hGb"/>
+                                    </constraints>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pu3-kZ-tiG" userLabel="Button">
+                                    <rect key="frame" x="0.0" y="6" width="44" height="44"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="44" id="EAu-23-qd0"/>
+                                        <constraint firstAttribute="height" constant="44" id="shl-v2-uyf"/>
+                                    </constraints>
+                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" title=" "/>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="pu3-kZ-tiG" secondAttribute="width" id="Cmb-CF-8s3"/>
+                                <constraint firstItem="fKv-DI-l0v" firstAttribute="centerX" secondItem="buY-eD-7aF" secondAttribute="centerX" id="K7B-u3-rkR"/>
+                                <constraint firstItem="pu3-kZ-tiG" firstAttribute="centerY" secondItem="buY-eD-7aF" secondAttribute="centerY" id="gXO-7G-Ck6"/>
+                                <constraint firstItem="fKv-DI-l0v" firstAttribute="centerY" secondItem="buY-eD-7aF" secondAttribute="centerY" id="jFu-Na-v7Z"/>
+                                <constraint firstItem="pu3-kZ-tiG" firstAttribute="centerX" secondItem="buY-eD-7aF" secondAttribute="centerX" id="orX-2g-BFO"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cgr-DT-bRX" customClass="CustomView" customModule="CurrencyConverter" customModuleProvider="target">
+                            <rect key="frame" x="158" y="0.0" width="114" height="56"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="sTT-mw-ecB"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="56" id="TvR-sf-QMz"/>
+                        <constraint firstItem="cgr-DT-bRX" firstAttribute="width" secondItem="T3c-6Y-qVI" secondAttribute="width" id="sQk-L6-uFU"/>
+                    </constraints>
+                </stackView>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-            <point key="canvasLocation" x="125" y="-11"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="oQy-hn-Mnw" secondAttribute="trailing" constant="24" id="Ccl-aB-p3Z"/>
+                <constraint firstItem="oQy-hn-Mnw" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="32" id="lo1-gZ-hJl"/>
+                <constraint firstItem="oQy-hn-Mnw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="tDW-9M-1DA"/>
+            </constraints>
+            <point key="canvasLocation" x="123.75" y="-11.619718309859156"/>
         </view>
     </objects>
+    <resources>
+        <image name="arrow.right.arrow.left" width="24" height="24"/>
+    </resources>
 </document>

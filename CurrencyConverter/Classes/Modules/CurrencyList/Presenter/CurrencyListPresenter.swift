@@ -10,6 +10,9 @@ class CurrencyListPresenter: CurrencyListPresenterProtocol, CurrencyListInteract
     weak var view: CurrencyListViewProtocol?
     var interactor: CurrencyListInteractorInputProtocol?
     var router: CurrencyListRouterProtocol?
+    var rowsCount: Int {
+        return 0 //currencySwrvice.getCurrncy.count
+    }
     
     init() {}
     
