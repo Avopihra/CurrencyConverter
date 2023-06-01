@@ -10,8 +10,8 @@ import UIKit
 class ConverterView: UIViewController {
     
     @IBOutlet private weak var swapButton: UIButton?
-    @IBOutlet private weak var baseCodeView: CustomView?
-    @IBOutlet private weak var quoteCodeView: CustomView?
+    @IBOutlet private weak var sourceCodeView: CustomView?
+    @IBOutlet private weak var targetCodeView: CustomView?
     @IBOutlet private weak var inputValueTextField: UITextField?
     @IBOutlet private weak var outputValueLabel: UILabel?
     
@@ -29,14 +29,14 @@ class ConverterView: UIViewController {
     }
     
     private func setupCodeViewsAppearance() {
-        self.baseCodeView?.type = .base
-        self.quoteCodeView?.type = .quote
+        self.sourceCodeView?.type = .source
+        self.targetCodeView?.type = .target
         
-        self.baseCodeView?.executeAction = {
-            self.presenter?.didSelect(from: .base)
+        self.sourceCodeView?.executeAction = {
+            self.presenter?.didSelect(from: .source)
         }
-        self.quoteCodeView?.executeAction = {
-            self.presenter?.didSelect(from: .quote)
+        self.targetCodeView?.executeAction = {
+            self.presenter?.didSelect(from: .target)
         }
     }
     
@@ -50,10 +50,10 @@ class ConverterView: UIViewController {
     
      func swapButtonTapped() {
          
-         guard var baseCode = self.baseCodeView?.title, var quoteCode = quoteCodeView?.title else {
+         guard var sourceCode = self.sourceCodeView?.title, var targetCode = targetCodeView?.title else {
             return
         }
-        presenter?.swapContryCodes(from: &baseCode, to: &quoteCode)
+        presenter?.swapContryCodes(from: &sourceCode, to: &targetCode)
     }
     
     func refreshButtonTapped() {
@@ -64,10 +64,10 @@ class ConverterView: UIViewController {
 extension ConverterView: ConverterViewProtocol {
     func setupCountryCode(_ code: String, for type: CountryCodeType) {
         switch type {
-        case .base:
-            self.baseCodeView?.title = code
-        case .quote:
-            self.quoteCodeView?.title = code
+        case .source:
+            self.sourceCodeView?.title = code
+        case .target:
+            self.targetCodeView?.title = code
         }
     }
     

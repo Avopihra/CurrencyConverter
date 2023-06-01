@@ -8,39 +8,37 @@ import Foundation
 import UIKit
 
 class CurrencyListRouter: CurrencyListRouterProtocol {
+
+    //var currencyListPresenter : CurrencyListPresenter?
+    var converterPresenter: ConverterPresenterProtocol?
     
-    var currencyListPresenter : CurrencyListPresenter?
-    var converterPresenter : ConverterPresenter?
-    
-    var baseRouter : BaseRouter?
-    var currencyListView : CurrencyListView?
-    var currencyListRouter : CurrencyListRouter?
+    var baseRouter: BaseRouter?
+    var currencyListView: CurrencyListView?
+    //var currencyListRouter : CurrencyListRouter?
     var presenter: CurrencyListPresenterProtocol & CurrencyListInteractorOutputProtocol = CurrencyListPresenter()
     
-    func presentCurrencyListModule(fromView window: AnyObject) {
-        let currencyListView = currencyListModule()
+    func presentCurrencyListModule(from window: AnyObject) {
+        let view = currencyListModule() as! CurrencyListView
     
         // Connecting
-        currencyListView.presenter = currencyListPresenter
-        currencyListPresenter?.view = currencyListView
+        
+        presenter.view = view
+        currencyListView = view
+        baseRouter?.showRootViewController(view, window: window as! UIWindow)
+    }
 
-        baseRouter?.showRootViewController(currencyListView, window: window as! UIWindow)
+    func currencyListModule() -> UIViewController {
+        let view = CurrencyListView.loadFromNib()
+        view.presenter = presenter
+        return view
     }
     
-//    func showCurrencyListViewController() {
-//        self.currencyListRouter?.presentCurrencyListModule(fromView: currencyListView!)
-//    }
-    
-    func currencyListModule() -> CurrencyListView {
-        let viewController = CurrencyListView.loadFromNib()
-        return viewController
-    }
-    
-    func presentCurrencyListModule(fromView view: UIViewController) {
+    func push(fromView view: UIViewController) {
         view.navigationController?.pushViewController(currencyListModule(), animated: true)
     }
     
-    func dismissCurrencyListWithSelectedData(_ converterItem: Currency) {
-         
+    func dismiss(view: UIViewController, with converterItem: String) {
+        converterPresenter?.returnCurrency(converterItem)
+        view.dismiss(animated: true)
     }
 }

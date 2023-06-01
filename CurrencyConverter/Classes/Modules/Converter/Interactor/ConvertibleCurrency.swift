@@ -8,6 +8,6 @@
 import Foundation
 
 struct CurrencyPair {
-    let baseCurrency: Currency
-    let quoteCurrency: Currency
+    let sourceCurrency: Currency
+    let targetCurrency: Currency
 }

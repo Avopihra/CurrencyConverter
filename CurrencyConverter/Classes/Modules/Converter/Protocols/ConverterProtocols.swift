@@ -37,9 +37,9 @@ protocol ConverterPresenterProtocol: AnyObject {
     
     //VIEW -> PRESENTER
     func didSelect(from type: CountryCodeType)
-    func swapContryCodes(from base: inout String, to quote: inout String)
+    func returnCurrency(_ currency: String)
+    func swapContryCodes(from source: inout String, to target: inout String)
     func refresh()
-    
 }
 
 //MARK: - INTERACTOR

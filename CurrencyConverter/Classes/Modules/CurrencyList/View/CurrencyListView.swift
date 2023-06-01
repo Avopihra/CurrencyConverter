@@ -12,14 +12,20 @@ class CurrencyListView: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var presenter: CurrencyListPresenterProtocol?
-    private var itemList: [Currency] = []
-
+    private var currencyList: [String]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupViewAppearance()
+        self.presenter?.loadCurrencyList()
+        self.setupViewAppearance()
      }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        DispatchQueue.main.async {
+//            self.presenter?.loadCurrencyList()
+//        }
+//    }
     
     //MARK: - Private Methods
 
@@ -44,15 +50,20 @@ class CurrencyListView: UIViewController {
 
 extension CurrencyListView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        presenter?.rowsCount ?? 0
+        return presenter?.rowCount ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CurrencyListCell.self), for: indexPath) as? CurrencyListCell, itemList.count > 0 else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CurrencyListCell.self), for: indexPath) as? CurrencyListCell else {
             return UITableViewCell()
         }
-        cell.name = itemList[indexPath.row].name
+        cell.name = presenter?.currencyList?[indexPath.row]
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //presenter?.didSelectCell(with: cell.name ?? "")
+        presenter?.didSelectCell(at: indexPath.row)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -61,6 +72,13 @@ extension CurrencyListView: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension CurrencyListView: CurrencyListViewProtocol {
+    func displayCurrencyList(_ currencyList: [String]) {
+        self.currencyList = currencyList
+        self.tableView?.reloadData()
+    }
     
-
+    func displayError(_ message: String) {
+        HapticManager.notify(.error)
+        AlertManager.showErrorAlert(from: self, message: message)
+    }
 }

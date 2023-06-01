@@ -10,9 +10,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ConverterView" customModule="CurrencyConverter" customModuleProvider="target">
             <connections>
-                <outlet property="baseCodeView" destination="T3c-6Y-qVI" id="PXQ-KY-3dK"/>
-                <outlet property="quoteCodeView" destination="cgr-DT-bRX" id="AWz-xH-HRM"/>
+                <outlet property="inputValueTextField" destination="Iek-Oj-KSW" id="7Qz-Bg-Egr"/>
+                <outlet property="outputValueLabel" destination="2hS-Z8-RXP" id="iDQ-DV-wI0"/>
+                <outlet property="sourceCodeView" destination="T3c-6Y-qVI" id="bPq-I8-Kp5"/>
                 <outlet property="swapButton" destination="pu3-kZ-tiG" id="s3P-cc-kE1"/>
+                <outlet property="targetCodeView" destination="cgr-DT-bRX" id="ERm-kR-frG"/>
                 <outlet property="view" destination="iN0-l3-epB" id="3fZ-bP-e5c"/>
             </connections>
         </placeholder>
@@ -75,6 +77,19 @@
                         <constraint firstItem="cgr-DT-bRX" firstAttribute="width" secondItem="T3c-6Y-qVI" secondAttribute="width" id="sQk-L6-uFU"/>
                     </constraints>
                 </stackView>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Iek-Oj-KSW">
+                    <rect key="frame" x="24" y="171" width="97" height="34"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hS-Z8-RXP">
+                    <rect key="frame" x="167" y="178" width="42" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -9,7 +9,11 @@ import Foundation
 class ConverterInteractor: ConverterInteractorInputProtocol {
     weak var presenter: ConverterInteractorOutputProtocol?
     
-    init() {}
+    private let localDataManager: ConverterAPIDataManagerInputProtocol
+    
+    init(dataManager: ConverterAPIDataManagerInputProtocol) {
+        self.localDataManager = dataManager
+    }
     
     // PRESENTER -> INTERACTOR
 }

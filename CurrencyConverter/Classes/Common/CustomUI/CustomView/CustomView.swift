@@ -8,8 +8,8 @@
 import UIKit
 
 enum CountryCodeType {
-    case base
-    case quote
+    case source
+    case target
 }
 
 class CustomView: UIView {

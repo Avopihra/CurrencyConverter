@@ -8,6 +8,7 @@ import Foundation
 import UIKit
 
 class ConverterRouter: ConverterRouterProtocol {
+    
     var baseRouter : BaseRouter?
     var converterView : ConverterView?
     var currencyListRouter : CurrencyListRouter?
@@ -24,7 +25,7 @@ class ConverterRouter: ConverterRouterProtocol {
     }
     
     func showCurrencyListViewController() {
-        self.currencyListRouter?.presentCurrencyListModule(fromView: converterView!)
+        self.currencyListRouter?.push(fromView: converterView!)
     }
     
     func converterModule() -> UIViewController {

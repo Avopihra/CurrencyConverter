@@ -13,18 +13,20 @@ class CurrencyListCell: UITableViewCell {
     var name: String? {
         didSet{
             self.nameLabel?.text = name
+            self.setupCellAppearance()
         }
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        self.setupCellAppearance()
     }
     
     private func setupCellAppearance() {
+        self.backgroundColor = .white
         self.nameLabel?.textColor = .black
         self.nameLabel?.font = UIFont.customFont()
-        self.nameLabel?.text = name
+        self.nameLabel?.text = name ?? "TEXT"
     }
-    
 }

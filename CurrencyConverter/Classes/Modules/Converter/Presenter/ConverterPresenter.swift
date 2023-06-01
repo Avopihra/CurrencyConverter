@@ -13,31 +13,32 @@ class ConverterPresenter: ConverterPresenterProtocol {
     var interactor: ConverterInteractorInputProtocol?
     var router: ConverterRouterProtocol?
     
-    var baseCountryCode: String = ""
-    var quoteCountryCode: String = ""
+    var selectedType: CountryCodeType = .source
     
-    init() {
-        
-    }
+    init() {}
     
     // VIEW -> PRESENTER
     
     func didSelect(from type: CountryCodeType) {
-       
+        self.selectedType = type
         router?.showCurrencyListViewController()
     }
     
-    func swapContryCodes(from base: inout String, to quote: inout String) {
-        let temporaryValue = base
-        base = quote
-        quote = temporaryValue
+    func swapContryCodes(from source: inout String, to target: inout String) {
+        let temporaryValue = source
+        source = target
+        target = temporaryValue
         
-        view?.setupCountryCode(base, for: .base)
-        view?.setupCountryCode(quote, for: .quote)
+        view?.setupCountryCode(source, for: .source)
+        view?.setupCountryCode(target, for: .target)
     }
     
     func refresh() {
          
+    }
+    
+    func returnCurrency(_ currency: String) {
+        view?.setupCountryCode(currency, for: selectedType)
     }
     
     //MARK: - Private methods

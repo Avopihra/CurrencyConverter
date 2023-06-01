@@ -6,14 +6,17 @@
 //
 
 import UIKit
+import CoreData
 
 class AppCoordinator {
         
     var converterRouter = ConverterRouter()
     private let window: UIWindow
+    private var persistentContainer: NSPersistentContainer?
     
-    init(window: UIWindow) {
+    init(window: UIWindow, persistentContainer: NSPersistentContainer?) {
         self.window = window
+        self.persistentContainer = persistentContainer
         self.configureDependencies()
     }
     
@@ -23,17 +26,18 @@ class AppCoordinator {
         converterRouter.presentConverterModule(fromView: window)
     }
     
-    func configureDependencies() {
+    private func configureDependencies() {
         let baseRouter = BaseRouter()
+        let dataManager = DataManager(persistentContainer: persistentContainer ?? NSPersistentContainer())
         let currencyListRouter = CurrencyListRouter()
+        let converterDataManager = ConverterAPIDataManager(dataManager)
+        let currencyListDataManager = CurrencyListLocalDataManager(dataManager)
         
         // Converter
         let converterPresenter = ConverterPresenter()
-        let converterAPIDataManager = ConverterAPIDataManager()
-        let converterIntractor = ConverterInteractor()
+        let converterIntractor = ConverterInteractor(dataManager: converterDataManager)
         
         converterIntractor.presenter = converterPresenter
-        
         converterPresenter.interactor = converterIntractor
         converterPresenter.router = converterRouter
         
@@ -43,15 +47,14 @@ class AppCoordinator {
  
         // CurrencyList
         let currencyListPresenter = CurrencyListPresenter()
-        let currencyListAPIDataManager = CurrencyListAPIDataManager()
-        let currencyListInteractor = CurrencyListInteractor()
+        let currencyListInteractor = CurrencyListInteractor(dataManager: currencyListDataManager)
 
         currencyListInteractor.presenter = currencyListPresenter
-        
         currencyListPresenter.interactor = currencyListInteractor
         currencyListPresenter.router = currencyListRouter
  
-        currencyListRouter.currencyListPresenter = currencyListPresenter
+        currencyListRouter.baseRouter = baseRouter //
+        currencyListRouter.presenter = currencyListPresenter
         currencyListRouter.converterPresenter = converterPresenter
     }
 }
