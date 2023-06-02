@@ -31,7 +31,11 @@ class DataManager {
     
     // MARK: - API Requests
     
-    func convertCurrency(from sourceCurrency: String, to targetCurrency: String, date: Date? = nil, completion: @escaping (Result<Double, Error>) -> Void) {
+    func convertCurrency(from sourceCurrency: String,
+                         to targetCurrency: String,
+                         date: Date? = nil,
+                         completion: @escaping (Result<Double, Error>) -> Void) {
+        
         let dateString = date?.formatDate() ?? ""
         let urlString = "\(baseURL)?get=rates&pairs=\(sourceCurrency)\(targetCurrency)&date=\(dateString)&key=\(apiKey)"
         
@@ -77,7 +81,7 @@ class DataManager {
     
     func getCurrencyList(completion: @escaping (Result<[String], Error>) -> Void) {
         let urlString = "\(baseURL)?get=currency_list&key=\(apiKey)"
-        print("REQUEST: \(urlString)")
+
         guard let url = URL(string: urlString) else {
             completion(.failure(DataError.invalidURL))
             return
@@ -102,10 +106,19 @@ class DataManager {
                     return
                 }
                 print("DATA: \(currencyList)")
-
-                self?.saveCurrencyList(currencyList)
+                var uniqueCurrencyList = Set<String>()
+                for element in currencyList {
+                    let part1 = String(element.prefix(3))
+                    let part2 = String(element.suffix(3))
+                    
+                    uniqueCurrencyList.insert(part1)
+                    uniqueCurrencyList.insert(part2)
+                }
+                let result = Array(uniqueCurrencyList).sorted(by: <)
+                print("UNIQUE DATA: \(result)")
+                self?.saveCurrencyList(result)
                 
-                completion(.success(currencyList))
+                completion(.success(result))
             } catch {
                 print("ERROR: \(DataError.invalidResponse)")
                 completion(.failure(error))
@@ -115,55 +128,78 @@ class DataManager {
         task.resume()
     }
     
-// MARK: - Core Data Saving support
-    
-    private func saveContext () {
-        guard let context = persistentContainer?.viewContext else {
-            return
+// MARK: - Core Data Fetching support
+    private func fetchConversionRate(completion: @escaping (Result<Double, Error>) -> Void) {
+        let conversionRateFetchRequest: NSFetchRequest<ConversionRate> = ConversionRate.fetchRequest()
+        do {
+            let context = persistentContainer?.viewContext
+            if let conversionRates = try context?.fetch(conversionRateFetchRequest) {
+                for conversionRate in conversionRates {
+
+                    let sourceCurrency = conversionRate.sourceCurrency
+                    let targetCurrency = conversionRate.targetCurrency
+                    let rate = conversionRate.rate
+                    let date = conversionRate.date
+                    
+                    completion(.success(rate))
+                }
+            }
+        } catch {
+            print("Error fetching ConversionRate objects: \(error)")
+            completion(.failure(DataError.invalidData))
         }
-        if context.hasChanges {
+    }
+    
+    func fetchCurrencyList() -> [String] {
+        let fetchRequest: NSFetchRequest<CurrencyList> = CurrencyList.fetchRequest()
+        do {
+            let context = persistentContainer?.viewContext
+            if let results = try context?.fetch(fetchRequest) {
+                var currencies: [String] = []
+                for currencyListObj in results {
+                    if let currencyList = currencyListObj.list as? [String] {
+                        currencies.append(contentsOf: currencyList)
+                    }
+                }
+                return currencies
+            }
+            return []
+        } catch {
+            print("Error fetching CurrencyList: \(error)")
+            return []
+        }
+    }
+    
+// MARK: - Core Data Saving support
+
+    private func saveConversionRate(sourceCurrency: String, targetCurrency: String, rate: Double, date: Date?) {
+        persistentContainer?.performBackgroundTask { context in
+
+            let conversionRate = ConversionRate(context: context)
+            conversionRate.sourceCurrency = sourceCurrency
+            conversionRate.targetCurrency = targetCurrency
+            conversionRate.rate = rate
+            conversionRate.date = date
+
             do {
                 try context.save()
             } catch {
-                
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                print("Failed to save conversion rate: \(error)")
             }
         }
     }
     
-    private func saveConversionRate(sourceCurrency: String, targetCurrency: String, rate: Double, date: Date?) {
-     saveContext()
-//        persistentContainer.performBackgroundTask { context in
-//
-//
-//
-//            let conversionRate = ConversionRate(context: context)
-//            conversionRate.sourceCurrency = sourceCurrency
-//            conversionRate.targetCurrency = targetCurrency
-//            conversionRate.rate = rate
-//            conversionRate.date = date
-//
-//            do {
-//                try context.save()
-//            } catch {
-//                print("Failed to save conversion rate: \(error)")
-//            }
-//        }
-    }
-    
     private func saveCurrencyList(_ currencyList: [String]) {
-        saveContext()
-//        persistentContainer.performBackgroundTask { context in
-//            let currencyListObject = CurrencyList(context: context)
-//            currencyListObject.list = currencyList
-//
-//            do {
-//                try context.save()
-//            } catch {
-//                print("Failed to save currency list: \(error)")
-//            }
-//        }
+        persistentContainer?.performBackgroundTask { context in
+            let currencyListObj = CurrencyList(context: context)
+            currencyListObj.list = currencyList as NSArray
+
+            do {
+                try context.save()
+            } catch {
+                print("Failed to save currency list: \(error)")
+            }
+        }
     }
 }
 

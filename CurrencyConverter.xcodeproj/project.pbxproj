@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		CE89CE222A25CB050002473D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE212A25CB050002473D /* AppDelegate.swift */; };
-		CE89CE2C2A25CB050002473D /* CurrencyConverter.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE2A2A25CB050002473D /* CurrencyConverter.xcdatamodeld */; };
 		CE89CE2E2A25CB080002473D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE89CE2D2A25CB080002473D /* Assets.xcassets */; };
 		CE89CE5F2A25CE210002473D /* CurrencyListLocalDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE402A25CE200002473D /* CurrencyListLocalDataManager.swift */; };
 		CE89CE602A25CE210002473D /* CurrencyListAPIDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE422A25CE200002473D /* CurrencyListAPIDataManager.swift */; };
@@ -49,12 +48,12 @@
 		CEF8BEC62A28902A00F58150 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF8BEC52A28902A00F58150 /* Date+Extension.swift */; };
 		CEF8BECB2A289A7100F58150 /* CachedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF8BECA2A289A7100F58150 /* CachedData.swift */; };
 		CEF8BECD2A29AB0E00F58150 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF8BECC2A29AB0E00F58150 /* UINavigationController+Extension.swift */; };
+		CEF8BED32A29EEAC00F58150 /* CurrencyConverterCache.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CEF8BED12A29EEAC00F58150 /* CurrencyConverterCache.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CE89CE1E2A25CB050002473D /* CurrencyConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurrencyConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE89CE212A25CB050002473D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CE89CE2B2A25CB050002473D /* CurrencyConverter.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CurrencyConverter.xcdatamodel; sourceTree = "<group>"; };
 		CE89CE2D2A25CB080002473D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE89CE322A25CB080002473D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE89CE402A25CE200002473D /* CurrencyListLocalDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyListLocalDataManager.swift; sourceTree = "<group>"; };
@@ -96,6 +95,7 @@
 		CEF8BEC52A28902A00F58150 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		CEF8BECA2A289A7100F58150 /* CachedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedData.swift; sourceTree = "<group>"; };
 		CEF8BECC2A29AB0E00F58150 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
+		CEF8BED22A29EEAC00F58150 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,7 +397,7 @@
 		CE89CE922A25F8D10002473D /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
-				CE89CE2A2A25CB050002473D /* CurrencyConverter.xcdatamodeld */,
+				CEF8BED12A29EEAC00F58150 /* CurrencyConverterCache.xcdatamodeld */,
 				CEF8BEC92A289A3D00F58150 /* DataManager */,
 			);
 			path = DataBase;
@@ -556,7 +556,6 @@
 			files = (
 				CE89CE6C2A25CE210002473D /* ConverterProtocols.swift in Sources */,
 				CE89CE752A25DBA10002473D /* String+Extension.swift in Sources */,
-				CE89CE2C2A25CB050002473D /* CurrencyConverter.xcdatamodeld in Sources */,
 				CE89CE772A25DBC10002473D /* UIColor+Extension.swift in Sources */,
 				CEF8BEBC2A285E1B00F58150 /* UINavigationItem+Extension.swift in Sources */,
 				CE89CE662A25CE210002473D /* CurrencyListInteractor.swift in Sources */,
@@ -572,6 +571,7 @@
 				CE89CE8E2A25E7E90002473D /* BaseRouter.swift in Sources */,
 				CE89CE642A25CE210002473D /* CurrencyListProtocols.swift in Sources */,
 				CE89CE722A25DB090002473D /* Common.swift in Sources */,
+				CEF8BED32A29EEAC00F58150 /* CurrencyConverterCache.xcdatamodeld in Sources */,
 				CE89CE692A25CE210002473D /* ConverterPresenter.swift in Sources */,
 				CE89CE672A25CE210002473D /* ConverterLocalDataManager.swift in Sources */,
 				CEF8BECB2A289A7100F58150 /* CachedData.swift in Sources */,
@@ -799,13 +799,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		CE89CE2A2A25CB050002473D /* CurrencyConverter.xcdatamodeld */ = {
+		CEF8BED12A29EEAC00F58150 /* CurrencyConverterCache.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				CE89CE2B2A25CB050002473D /* CurrencyConverter.xcdatamodel */,
+				CEF8BED22A29EEAC00F58150 /* Model.xcdatamodel */,
 			);
-			currentVersion = CE89CE2B2A25CB050002473D /* CurrencyConverter.xcdatamodel */;
-			path = CurrencyConverter.xcdatamodeld;
+			currentVersion = CEF8BED22A29EEAC00F58150 /* Model.xcdatamodel */;
+			path = CurrencyConverterCache.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

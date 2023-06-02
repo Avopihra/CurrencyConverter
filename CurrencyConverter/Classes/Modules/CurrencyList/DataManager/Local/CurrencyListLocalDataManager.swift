@@ -8,7 +8,7 @@ import UIKit
 import CoreData
 
 class CurrencyListLocalDataManager: CurrencyListLocalDataManagerInputProtocol {
-
+    
     private let dataManager: DataManager?
     
     init(_ dataManager: DataManager) {
@@ -16,15 +16,16 @@ class CurrencyListLocalDataManager: CurrencyListLocalDataManagerInputProtocol {
     }
     
     func loadCurrencyListArrayFromCache() -> [String]? {
-            var currencyList: [String]?
-            var error: Error?
-            
-            let semaphore = DispatchSemaphore(value: 0)
-            
+        var error: Error?
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        guard let currencyList = dataManager?.fetchCurrencyList(), !currencyList.isEmpty else {
+            var newCurrencyList: [String]?
             dataManager?.getCurrencyList { result in
                 switch result {
                 case .success(let currencies):
-                    currencyList = currencies
+                    newCurrencyList = currencies
                 case .failure(let err):
                     error = err
                 }
@@ -39,6 +40,8 @@ class CurrencyListLocalDataManager: CurrencyListLocalDataManagerInputProtocol {
                 return nil
             }
             
-            return currencyList
+            return newCurrencyList
         }
+        return currencyList
+    }
 }
