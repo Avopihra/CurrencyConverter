@@ -19,13 +19,17 @@ class CustomView: UIView {
     var type: CountryCodeType?
     var executeAction: (() -> Void)?
     
-    var isAvailable: Bool = false {
+    var isAppointed: Bool = false {
         didSet {
             self.updateTitleLabel()
         }
     }
     
-    var title: String? = ""
+    var title: String? = ""{
+        didSet {
+            self.updateTitleLabel()
+        }
+    }
     
     private let nibName = "CustomView"
     
@@ -67,7 +71,7 @@ class CustomView: UIView {
     
     @objc private func viewTapped() {
         self.executeAction?()
-        self.isAvailable = !self.isAvailable
+        self.isAppointed = !self.isAppointed
     }
     
     private func setupPreference() {
@@ -79,7 +83,7 @@ class CustomView: UIView {
     }
     
     private func updateTitleLabel() {
-        self.titleLabel?.textColor = isAvailable ? UIColor.black : UIColor.grayTitle
-        self.titleLabel?.text = isAvailable ? self.title : Common.translate("Currency")
+        self.titleLabel?.textColor = isAppointed ? UIColor.black : UIColor.grayTitle
+        self.titleLabel?.text = isAppointed ? self.title : Common.translate("Currency")
     }
 }

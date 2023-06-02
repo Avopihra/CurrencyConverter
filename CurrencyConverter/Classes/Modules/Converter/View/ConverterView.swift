@@ -66,8 +66,10 @@ extension ConverterView: ConverterViewProtocol {
         switch type {
         case .source:
             self.sourceCodeView?.title = code
+            self.sourceCodeView?.isAppointed = true
         case .target:
             self.targetCodeView?.title = code
+            self.targetCodeView?.isAppointed = true
         }
     }
     

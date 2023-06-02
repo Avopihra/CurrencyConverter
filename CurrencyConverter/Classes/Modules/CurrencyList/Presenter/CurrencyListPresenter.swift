@@ -14,6 +14,7 @@ class CurrencyListPresenter: CurrencyListPresenterProtocol {
     
     var currencyList: [String]?
     var rowCount: Int?
+    
         
     init() {}
     
@@ -33,7 +34,8 @@ class CurrencyListPresenter: CurrencyListPresenterProtocol {
                 !currencyList.isEmpty else {
             return
         }
-        router?.dismissCurrencyListWithSelectedData(currencyList[index])
+        let currency = currencyList[index]
+        router?.pop(from: view, with: currency)
     }
 }
 
@@ -44,7 +46,6 @@ extension CurrencyListPresenter: CurrencyListInteractorOutputProtocol {
     func currencyListLoaded(_ currencyList: [String]) {
         self.rowCount = currencyList.count
         self.currencyList = currencyList
-//        self.view?.displayCurrencyList(currencyList)
     }
     
     func currencyListLoadFailed(_ error: Error) {

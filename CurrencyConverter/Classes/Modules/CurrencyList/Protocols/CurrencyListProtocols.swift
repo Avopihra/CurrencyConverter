@@ -15,11 +15,9 @@ protocol CurrencyListViewProtocol: AnyObject {
 }
 
 protocol CurrencyListRouterProtocol: AnyObject {
-    func push(fromView view: UIViewController)
-    func dismiss(view: UIViewController, with converterItem: String)
-    //func dismissCurrencyListWithSelectedData(_ converterItem : String)
+    func push(from view: UIViewController)
     // PRESENTER -> router
-    
+    func pop(from view: CurrencyListViewProtocol?, with countryCode: String)
 }
 
 protocol CurrencyListPresenterProtocol: AnyObject {
@@ -30,7 +28,6 @@ protocol CurrencyListPresenterProtocol: AnyObject {
     var currencyList: [String]? { get set }
     var rowCount: Int? { get set }
     func didSelectCell(at index: Int)
-   // func didSelectCell(with data: String)
     func loadCurrencyList()
 }
 

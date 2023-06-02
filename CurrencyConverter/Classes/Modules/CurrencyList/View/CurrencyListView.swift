@@ -62,8 +62,9 @@ extension CurrencyListView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //presenter?.didSelectCell(with: cell.name ?? "")
-        presenter?.didSelectCell(at: indexPath.row)
+        self.navigationController?.popViewController(animated: true, completion: {
+            self.presenter?.didSelectCell(at: indexPath.row)
+        })
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -72,6 +73,7 @@ extension CurrencyListView: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension CurrencyListView: CurrencyListViewProtocol {
+
     func displayCurrencyList(_ currencyList: [String]) {
         self.currencyList = currencyList
         self.tableView?.reloadData()

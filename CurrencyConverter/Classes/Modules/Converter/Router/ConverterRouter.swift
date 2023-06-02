@@ -25,7 +25,7 @@ class ConverterRouter: ConverterRouterProtocol {
     }
     
     func showCurrencyListViewController() {
-        self.currencyListRouter?.push(fromView: converterView!)
+        self.currencyListRouter?.push(from: converterView!)
     }
     
     func converterModule() -> UIViewController {

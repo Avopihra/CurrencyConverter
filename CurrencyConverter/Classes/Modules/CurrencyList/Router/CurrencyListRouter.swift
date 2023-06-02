@@ -8,7 +8,7 @@ import Foundation
 import UIKit
 
 class CurrencyListRouter: CurrencyListRouterProtocol {
-
+   
     //var currencyListPresenter : CurrencyListPresenter?
     var converterPresenter: ConverterPresenterProtocol?
     
@@ -16,6 +16,8 @@ class CurrencyListRouter: CurrencyListRouterProtocol {
     var currencyListView: CurrencyListView?
     //var currencyListRouter : CurrencyListRouter?
     var presenter: CurrencyListPresenterProtocol & CurrencyListInteractorOutputProtocol = CurrencyListPresenter()
+    
+    var presentedViewController : UIViewController?
     
     func presentCurrencyListModule(from window: AnyObject) {
         let view = currencyListModule() as! CurrencyListView
@@ -25,6 +27,7 @@ class CurrencyListRouter: CurrencyListRouterProtocol {
         presenter.view = view
         currencyListView = view
         baseRouter?.showRootViewController(view, window: window as! UIWindow)
+        presentedViewController = view
     }
 
     func currencyListModule() -> UIViewController {
@@ -33,12 +36,11 @@ class CurrencyListRouter: CurrencyListRouterProtocol {
         return view
     }
     
-    func push(fromView view: UIViewController) {
+    func push(from view: UIViewController) {
         view.navigationController?.pushViewController(currencyListModule(), animated: true)
     }
     
-    func dismiss(view: UIViewController, with converterItem: String) {
-        converterPresenter?.returnCurrency(converterItem)
-        view.dismiss(animated: true)
+    func pop(from view: CurrencyListViewProtocol?, with countryCode: String) {
+        self.converterPresenter?.returnCurrency(countryCode)
     }
 }
