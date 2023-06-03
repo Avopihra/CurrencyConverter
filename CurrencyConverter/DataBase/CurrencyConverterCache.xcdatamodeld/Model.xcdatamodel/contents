@@ -9,4 +9,7 @@
     <entity name="CurrencyList" representedClassName="CurrencyList" syncable="YES">
         <attribute name="list" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName"/>
     </entity>
+    <entity name="RateList" representedClassName="RateList" syncable="YES">
+        <attribute name="rateDictionary" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
+    </entity>
 </model>

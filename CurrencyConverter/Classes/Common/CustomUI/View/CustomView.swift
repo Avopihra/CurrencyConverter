@@ -18,14 +18,16 @@ class CustomView: UIView {
     
     var type: CountryCodeType?
     var executeAction: (() -> Void)?
+        
+    var isSelected: Bool = false
     
-    var isAppointed: Bool = false {
+    var isFilled: Bool = false {
         didSet {
             self.updateTitleLabel()
         }
     }
     
-    var title: String? = ""{
+    var title: String? {
         didSet {
             self.updateTitleLabel()
         }
@@ -46,6 +48,18 @@ class CustomView: UIView {
     func addAction(for type: CountryCodeType, completion: () -> Void) {
         self.type = type
         completion()
+    }
+    
+    func shake() {
+        guard !self.isFilled else {
+            return
+        }
+        AnimationManager.shake(self)
+    }
+    
+    func selectionHandle(twin: CustomView?) {
+        twin?.isSelected = false
+        self.isSelected = !self.isSelected
     }
     
     //MARK: - Private Methods
@@ -71,7 +85,6 @@ class CustomView: UIView {
     
     @objc private func viewTapped() {
         self.executeAction?()
-        self.isAppointed = !self.isAppointed
     }
     
     private func setupPreference() {
@@ -83,7 +96,7 @@ class CustomView: UIView {
     }
     
     private func updateTitleLabel() {
-        self.titleLabel?.textColor = isAppointed ? UIColor.black : UIColor.grayTitle
-        self.titleLabel?.text = isAppointed ? self.title : Common.translate("Currency")
+        self.titleLabel?.textColor = isFilled ? UIColor.black : UIColor.grayTitle
+        self.titleLabel?.text = isFilled ? self.title : Common.translate("Currency")
     }
 }

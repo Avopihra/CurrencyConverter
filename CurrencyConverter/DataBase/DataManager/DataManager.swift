@@ -10,7 +10,6 @@ import CoreData
 import UIKit
 
 // MARK: - Error Handling
-
 enum DataError: Error {
     case invalidURL
     case invalidData
@@ -31,13 +30,8 @@ class DataManager {
     
     // MARK: - API Requests
     
-    func convertCurrency(from sourceCurrency: String,
-                         to targetCurrency: String,
-                         date: Date? = nil,
-                         completion: @escaping (Result<Double, Error>) -> Void) {
-        
-        let dateString = date?.formatDate() ?? ""
-        let urlString = "\(baseURL)?get=rates&pairs=\(sourceCurrency)\(targetCurrency)&date=\(dateString)&key=\(apiKey)"
+    func getCurrencyList(sourceCurrency: String?, targetCurrency: String?, completion: @escaping (Result<[String], Error>) -> Void) {
+        let urlString = "\(baseURL)?get=currency_list&key=\(apiKey)"
         
         guard let url = URL(string: urlString) else {
             completion(.failure(DataError.invalidURL))
@@ -57,90 +51,161 @@ class DataManager {
             
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                guard let rates = json?["data"] as? [String: String],
-                      let rate = rates[targetCurrency] else {
+                guard let currencyPairsList = json?["data"] as? [String] else {
                     completion(.failure(DataError.invalidResponse))
+                    return
+                }
+                
+                self?.saveCurrencyList(currencyPairsList)
+                self?.getRateList(currencyPairsList)
+                let currencyList = currencyPairsList.splitAndSort()
+                completion(.success(currencyList))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func getRateList(_ pairsList: [String]) {
+        //https://currate.ru/api/?get=rates&pairs=USDRUB,EURRUB,USDGBP,USDBYN,GBPAUD&key=18c8986887bd18e492bb98a6b7e75b8f
+        let joinedPairs = pairsList.joined(separator: ",")
+        let urlString = "\(baseURL)?get=rates&pairs=\(joinedPairs)&key=\(apiKey)"
+        
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                guard let currencyPairsList = json?["data"] as? [String:String] else {
+                    return
+                }
+                
+                self?.saveRateList(currencyPairsList)
+                print("RATE LIST: \(currencyPairsList)")
+            } catch {
+                print(error)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func convertCurrency(from sourceCurrency: String,
+                         to targetCurrency: String,
+                         completion: @escaping (Result<Double, Error>) -> Void) {
+        let urlString = "\(baseURL)?get=rates&pairs=\(sourceCurrency)\(targetCurrency)&key=\(apiKey)"
+        print("API: \(urlString)")
+        
+        guard let url = URL(string: urlString) else {
+            DispatchQueue.main.async {
+                completion(.failure(DataError.invalidURL))
+            }
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            if let error = error {
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+                return
+            }
+            
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    completion(.failure(DataError.invalidData))
+                }
+                return
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                
+                guard let rates = json?["data"] as? [String: String],
+                      let rate = rates[sourceCurrency+targetCurrency] else {
+                    DispatchQueue.main.async {
+                        completion(.failure(DataError.invalidResponse))
+                    }
                     return
                 }
                 
                 guard let conversionRate = Double(rate) else {
-                    completion(.failure(DataError.invalidConversionRate))
+                    DispatchQueue.main.async {
+                        completion(.failure(DataError.invalidConversionRate))
+                    }
                     return
                 }
                 
-                self?.saveConversionRate(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency, rate: conversionRate, date: date)
-                
-                completion(.success(conversionRate))
+                self?.saveConversionRate(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency, rate: conversionRate)
+                DispatchQueue.main.async {
+                    completion(.success(conversionRate))
+                }
             } catch {
-                completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
         }
         
         task.resume()
     }
     
-    func getCurrencyList(completion: @escaping (Result<[String], Error>) -> Void) {
-        let urlString = "\(baseURL)?get=currency_list&key=\(apiKey)"
-
-        guard let url = URL(string: urlString) else {
-            completion(.failure(DataError.invalidURL))
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(DataError.invalidData))
-                return
-            }
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                guard let currencyList = json?["data"] as? [String] else {
-                    print("ERROR: \(DataError.invalidResponse)")
-                    completion(.failure(DataError.invalidResponse))
-                    return
-                }
-                print("DATA: \(currencyList)")
-                var uniqueCurrencyList = Set<String>()
-                for element in currencyList {
-                    let part1 = String(element.prefix(3))
-                    let part2 = String(element.suffix(3))
-                    
-                    uniqueCurrencyList.insert(part1)
-                    uniqueCurrencyList.insert(part2)
-                }
-                let result = Array(uniqueCurrencyList).sorted(by: <)
-                print("UNIQUE DATA: \(result)")
-                self?.saveCurrencyList(result)
-                
-                completion(.success(result))
-            } catch {
-                print("ERROR: \(DataError.invalidResponse)")
-                completion(.failure(error))
-            }
-        }
-        
-        task.resume()
-    }
+    // MARK: - Core Data Fetching support
     
-// MARK: - Core Data Fetching support
+    func fetchCurrencyList(sourceCurrency: String?, targetCurrency: String?) -> [String] {
+        let fetchRequest: NSFetchRequest<CurrencyList> = CurrencyList.fetchRequest()
+        
+        guard let context = persistentContainer?.viewContext else {
+            return []
+        }
+        
+        do {
+            //Достаем из контейнера currencyPairsList:
+            let cachedArrayOfCurrencyPairsList = try context.fetch(fetchRequest)
+            let currencyPairsList = cachedArrayOfCurrencyPairsList.compactMap { $0.list as? [String] }
+                .flatMap { $0 }
+            
+            //Проверяем, первая ли это итерация (известна хотя бы одна currency):
+            if let source = sourceCurrency,
+                let target = targetCurrency,
+                (!source.isEmpty || !target.isEmpty) {
+                //Известна хотя бы одна currency - оставляем в парах только пересекающиеся значения:
+                let intersectingPairs = currencyPairsList.filter { $0.contains(source) || $0.contains(target) }
+                //Делим пересекающиеся элементы пополам и удаляем саму currency:
+                let listForSpecificCurrency = intersectingPairs.splitAndSort()
+                    .filter { !$0.contains(source) && !$0.contains(target) }
+                return listForSpecificCurrency
+            }
+            
+            //Это первая итерация (source и target неизвестны) - возвращаем все доступные значения из пар:
+            let currencyList = currencyPairsList.splitAndSort()
+            return currencyList
+        } catch {
+            print("Error fetching CurrencyList: \(error)")
+            return []
+        }
+    }
+  
     private func fetchConversionRate(completion: @escaping (Result<Double, Error>) -> Void) {
         let conversionRateFetchRequest: NSFetchRequest<ConversionRate> = ConversionRate.fetchRequest()
         do {
             let context = persistentContainer?.viewContext
             if let conversionRates = try context?.fetch(conversionRateFetchRequest) {
                 for conversionRate in conversionRates {
-
-                    let sourceCurrency = conversionRate.sourceCurrency
-                    let targetCurrency = conversionRate.targetCurrency
                     let rate = conversionRate.rate
-                    let date = conversionRate.date
-                    
                     completion(.success(rate))
                 }
             }
@@ -150,37 +215,31 @@ class DataManager {
         }
     }
     
-    func fetchCurrencyList() -> [String] {
-        let fetchRequest: NSFetchRequest<CurrencyList> = CurrencyList.fetchRequest()
-        do {
-            let context = persistentContainer?.viewContext
-            if let results = try context?.fetch(fetchRequest) {
-                var currencies: [String] = []
-                for currencyListObj in results {
-                    if let currencyList = currencyListObj.list as? [String] {
-                        currencies.append(contentsOf: currencyList)
-                    }
-                }
-                return currencies
+    // MARK: - Core Data Saving support
+    
+    private func saveRateList(_ rateList: [String : String]) {
+        guard let context = persistentContainer?.viewContext else {
+                return
             }
-            return []
-        } catch {
-            print("Error fetching CurrencyList: \(error)")
-            return []
-        }
+
+            let dictionaryEntity = RateList(context: context)
+            dictionaryEntity.rateDictionary = rateList
+
+            do {
+                try context.save()
+            } catch {
+                print("Error saving dictionary: \(error)")
+            }
     }
     
-// MARK: - Core Data Saving support
-
-    private func saveConversionRate(sourceCurrency: String, targetCurrency: String, rate: Double, date: Date?) {
+    private func saveConversionRate(sourceCurrency: String, targetCurrency: String, rate: Double) {
         persistentContainer?.performBackgroundTask { context in
-
+            
             let conversionRate = ConversionRate(context: context)
             conversionRate.sourceCurrency = sourceCurrency
             conversionRate.targetCurrency = targetCurrency
             conversionRate.rate = rate
-            conversionRate.date = date
-
+            
             do {
                 try context.save()
             } catch {
@@ -193,7 +252,7 @@ class DataManager {
         persistentContainer?.performBackgroundTask { context in
             let currencyListObj = CurrencyList(context: context)
             currencyListObj.list = currencyList as NSArray
-
+            
             do {
                 try context.save()
             } catch {

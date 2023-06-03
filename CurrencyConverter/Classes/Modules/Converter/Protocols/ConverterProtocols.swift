@@ -14,6 +14,7 @@ protocol ConverterViewProtocol: AnyObject {
     
     // PRESENTER -> VIEW
     func setupCountryCode(_ code: String, for type: CountryCodeType)
+    func updateCountryCode(_ code: String, for type: CountryCodeType)
     func updateOutput(value: String)
     func showError(message: String)
 }
@@ -22,8 +23,7 @@ protocol ConverterViewProtocol: AnyObject {
 
 protocol ConverterRouterProtocol: AnyObject {
     func presentConverterModule(fromView window: AnyObject)
-    func showCurrencyListViewController()
-    
+    func showCurrencyListViewController(sourceCurrency: String?, targetCurrency: String?)
     // PRESENTER -> ROUTER
     
 }
@@ -36,10 +36,11 @@ protocol ConverterPresenterProtocol: AnyObject {
     var router: ConverterRouterProtocol? { get set }
     
     //VIEW -> PRESENTER
-    func didSelect(from type: CountryCodeType)
+    func convertValue(_ value: String, from sourceCurrency: String, to targetCurrency: String)
+    func didSelect(from type: CountryCodeType, with code: String?)
+    func setupCode(sourceCurrency: String?, targetCurrency: String?)
     func returnCurrency(_ currency: String)
-    func swapContryCodes(from source: inout String, to target: inout String)
-    func refresh()
+    func swap(from source: inout String, to target: inout String)
 }
 
 //MARK: - INTERACTOR
@@ -49,7 +50,8 @@ protocol ConverterPresenterProtocol: AnyObject {
 
 protocol ConverterInteractorOutputProtocol: AnyObject {
     // INTERACTOR -> PRESENTER
-    
+    func valueConverted(_ value: String)
+    func converteFailed(_ error: Error)
 }
 
     //MARK: - Interactor Input
@@ -57,29 +59,14 @@ protocol ConverterInteractorOutputProtocol: AnyObject {
 protocol ConverterInteractorInputProtocol: AnyObject {
     var presenter: ConverterInteractorOutputProtocol? { get set }
     // PRESENTER -> INTERACTOR
-    
+    func convertValue(_ value: String, from sourceCurrency: String, to targetCurrency: String)
 }
 
 //MARK: - DATA
 
-    //MARK: - DataManager
-
-
-protocol ConverterDataManagerInputProtocol: AnyObject {
-    // INTERACTOR -> DATAMANAGER
-    
-}
-
     //MARK: - API DataManager
 
-protocol ConverterAPIDataManagerInputProtocol: AnyObject {
+protocol ConverterDataManagerInputProtocol: AnyObject {
     // INTERACTOR -> APIDATAMANAGER
-    
-}
-
-    //MARK: - Local DataManager
-
-protocol ConverterLocalDataManagerInputProtocol: AnyObject {
-    // INTERACTOR -> LOCALDATAMANAGER
-    
+    func convertCurrency(from sourceCurrency: String, to targetCurrency: String, completion: @escaping (Result<Double, Error>) -> Void)
 }

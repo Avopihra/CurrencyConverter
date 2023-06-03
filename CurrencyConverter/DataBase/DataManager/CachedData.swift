@@ -8,7 +8,19 @@
 import UIKit
 import CoreData
 
+@objc(RateList)
+
+class RateList: NSManagedObject {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<RateList> {
+            return NSFetchRequest<RateList>(entityName: "RateList")
+        }
+    @NSManaged
+    var rateDictionary: [String: String]
+}
+
 @objc(ConversionRate)
+
 class ConversionRate: NSManagedObject {
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ConversionRate> {

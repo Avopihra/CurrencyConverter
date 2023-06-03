@@ -13,6 +13,9 @@ extension UIColor {
    
     static let grayBorder = UIColor("DADADA")
     static let grayTitle = UIColor("BFBFBF")
+    static let outputLabel = UIColor("676767")
+    static let enabledButton = UIColor("3B70F9")
+    static let disabledButton = UIColor("3B70F9").withAlphaComponent(0.6)
 
 }
 

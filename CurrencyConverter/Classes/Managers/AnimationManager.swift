@@ -9,6 +9,17 @@ import UIKit
 
 final class AnimationManager {
     
+    static func animate(duration: TimeInterval = 0.3,
+                        options: UIView.AnimationOptions = .curveLinear,
+                        block: @escaping () -> (),
+                        completion: ((Bool) -> ())? = nil) {
+        UIView.animate(withDuration: duration,
+                       delay: 0,
+                       options: options,
+                       animations: block,
+                       completion: completion)
+    }
+    
     static func shake(_ T: AnyObject) {
         
         let animation = CABasicAnimation(keyPath: "position")
@@ -21,7 +32,7 @@ final class AnimationManager {
         T.layer.add(animation, forKey: "position")
         T.layer.borderColor = UIColor.red.cgColor
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            T.layer.borderColor = UIColor.black.cgColor
+            T.layer.borderColor = UIColor.grayBorder.cgColor
         }
     }
 }

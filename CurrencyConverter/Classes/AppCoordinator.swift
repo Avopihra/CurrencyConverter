@@ -30,8 +30,8 @@ class AppCoordinator {
         let baseRouter = BaseRouter()
         let dataManager = DataManager(persistentContainer: persistentContainer ?? NSPersistentContainer())
         let currencyListRouter = CurrencyListRouter()
-        let converterDataManager = ConverterAPIDataManager(dataManager)
-        let currencyListDataManager = CurrencyListLocalDataManager(dataManager)
+        let converterDataManager = ConverterDataManager(dataManager)
+        let currencyListDataManager = CurrencyListDataManager(dataManager)
         
         // Converter
         let converterPresenter = ConverterPresenter()

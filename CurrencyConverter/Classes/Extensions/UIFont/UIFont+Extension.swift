@@ -10,7 +10,7 @@ import UIKit
 extension UIFont {
     
     static func customFont(size: CGFloat = 17) -> UIFont {
-        guard let font = UIFont(name: "OpenSans-Semibold", size: size) else {
+        guard let font = UIFont(name: "OpenSans-SemiBold", size: size) else {
             return UIFont.systemFont(ofSize: size)
         }
         

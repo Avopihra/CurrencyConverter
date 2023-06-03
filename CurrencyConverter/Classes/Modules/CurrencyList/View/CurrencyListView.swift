@@ -12,20 +12,17 @@ class CurrencyListView: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var presenter: CurrencyListPresenterProtocol?
+    var sourceCurrency: String?
+    var targetCurrency: String?
+    
     private var currencyList: [String]?
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.presenter?.loadCurrencyList()
+        self.presenter?.loadCurrencyList(sourceCurrency: self.sourceCurrency, targetCurrency: self.targetCurrency)
         self.setupViewAppearance()
      }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        DispatchQueue.main.async {
-//            self.presenter?.loadCurrencyList()
-//        }
-//    }
     
     //MARK: - Private Methods
 

@@ -15,7 +15,7 @@ protocol CurrencyListViewProtocol: AnyObject {
 }
 
 protocol CurrencyListRouterProtocol: AnyObject {
-    func push(from view: UIViewController)
+    func push(from view: UIViewController, sourceCurrency: String?, targetCurrency: String?)
     // PRESENTER -> router
     func pop(from view: CurrencyListViewProtocol?, with countryCode: String)
 }
@@ -28,7 +28,7 @@ protocol CurrencyListPresenterProtocol: AnyObject {
     var currencyList: [String]? { get set }
     var rowCount: Int? { get set }
     func didSelectCell(at index: Int)
-    func loadCurrencyList()
+    func loadCurrencyList(sourceCurrency: String?, targetCurrency: String?)
 }
 
 protocol CurrencyListInteractorOutputProtocol: AnyObject {
@@ -40,18 +40,10 @@ protocol CurrencyListInteractorOutputProtocol: AnyObject {
 protocol CurrencyListInteractorInputProtocol: AnyObject {
     var presenter: CurrencyListInteractorOutputProtocol? { get set }
     // PRESENTER -> INTERACTOR
-    func loadCurrencyList()
+    func loadCurrencyList(sourceCurrency: String?, targetCurrency: String?)
 }
 
 protocol CurrencyListDataManagerInputProtocol: AnyObject {
-    // INTERACTOR -> DATAMANAGER
-}
-
-protocol CurrencyListAPIDataManagerInputProtocol: AnyObject {
-    // INTERACTOR -> APIDATAMANAGER
-}
-
-protocol CurrencyListLocalDataManagerInputProtocol: AnyObject {
     // INTERACTOR -> LOCALDATAMANAGER
-    func loadCurrencyListArrayFromCache() -> [String]?
+    func loadCurrencyListArrayFromCache(sourceCurrency: String?, targetCurrency: String?) -> [String]?
 }

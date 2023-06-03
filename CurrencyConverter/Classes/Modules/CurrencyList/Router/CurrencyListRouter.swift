@@ -19,25 +19,27 @@ class CurrencyListRouter: CurrencyListRouterProtocol {
     
     var presentedViewController : UIViewController?
     
-    func presentCurrencyListModule(from window: AnyObject) {
-        let view = currencyListModule() as! CurrencyListView
-    
-        // Connecting
-        
-        presenter.view = view
-        currencyListView = view
-        baseRouter?.showRootViewController(view, window: window as! UIWindow)
-        presentedViewController = view
-    }
+//    func presentCurrencyListModule(from window: AnyObject) {
+//        let view = currencyListModule() as! CurrencyListView
+//
+//        // Connecting
+//
+//        presenter.view = view
+//        currencyListView = view
+//        baseRouter?.showRootViewController(view, window: window as! UIWindow)
+//        presentedViewController = view
+//    }
 
-    func currencyListModule() -> UIViewController {
+    func currencyListModule(sourceCurrency: String?, targetCurrency: String?) -> UIViewController {
         let view = CurrencyListView.loadFromNib()
         view.presenter = presenter
+        view.sourceCurrency = sourceCurrency
+        view.targetCurrency = targetCurrency
         return view
     }
     
-    func push(from view: UIViewController) {
-        view.navigationController?.pushViewController(currencyListModule(), animated: true)
+    func push(from view: UIViewController, sourceCurrency: String?, targetCurrency: String?) {
+        view.navigationController?.pushViewController(currencyListModule(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency), animated: true)
     }
     
     func pop(from view: CurrencyListViewProtocol?, with countryCode: String) {

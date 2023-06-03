@@ -7,7 +7,7 @@
 import Foundation
 
 class CurrencyListPresenter: CurrencyListPresenterProtocol {
-    
+
     weak var view: CurrencyListViewProtocol?
     var interactor: CurrencyListInteractorInputProtocol?
     var router: CurrencyListRouterProtocol?
@@ -15,18 +15,21 @@ class CurrencyListPresenter: CurrencyListPresenterProtocol {
     var currencyList: [String]?
     var rowCount: Int?
     
+    
         
-    init() {}
+    init() {
+        
+    }
     
     // VIEW -> PRESENTER
 
-    func loadCurrencyList() {
-        guard let currencyList = self.currencyList,
-                 !currencyList.isEmpty else {
-            interactor?.loadCurrencyList()
-            return
-        }
-        self.view?.displayCurrencyList(currencyList)
+    func loadCurrencyList(sourceCurrency: String?, targetCurrency: String?) {
+       // guard let currencyList = self.currencyList,
+       //          !currencyList.isEmpty else {
+            interactor?.loadCurrencyList(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency)
+         //   return
+       // }
+       // self.view?.displayCurrencyList(currencyList)
     }
 
     func didSelectCell(at index: Int) {
@@ -46,6 +49,7 @@ extension CurrencyListPresenter: CurrencyListInteractorOutputProtocol {
     func currencyListLoaded(_ currencyList: [String]) {
         self.rowCount = currencyList.count
         self.currencyList = currencyList
+        self.view?.displayCurrencyList(currencyList)
     }
     
     func currencyListLoadFailed(_ error: Error) {
