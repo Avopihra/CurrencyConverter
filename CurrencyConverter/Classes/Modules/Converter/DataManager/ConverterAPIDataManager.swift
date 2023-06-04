@@ -15,17 +15,14 @@ class ConverterDataManager: ConverterDataManagerInputProtocol {
     }
     
     func convertCurrency(from sourceCurrency: String, to targetCurrency: String, completion: @escaping (Result<Double, Error>) -> Void) {
-        if let cachedValue = dataManager?.fetchCurrencyList(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency) {
-            print("CACHED: \(cachedValue)")
-            
-        }
-        dataManager?.convertCurrency(from: sourceCurrency, to: targetCurrency) { result in
+        
+       dataManager?.fetchConversionRate(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency, completion:  { result in
             switch result {
-            case .success(let currency):
-                completion(.success(currency))
+            case .success(let rate):
+                completion(.success(rate))
             case .failure(let error):
                 completion(.failure(error))
             }
-        }
+        })
     }
 }

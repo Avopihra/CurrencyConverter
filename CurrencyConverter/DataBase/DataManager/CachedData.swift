@@ -19,20 +19,6 @@ class RateList: NSManagedObject {
     var rateDictionary: [String: String]
 }
 
-@objc(ConversionRate)
-
-class ConversionRate: NSManagedObject {
-    
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<ConversionRate> {
-        return NSFetchRequest<ConversionRate>(entityName: "ConversionRate")
-    }
-
-    @NSManaged public var sourceCurrency: String?
-    @NSManaged public var targetCurrency: String?
-    @NSManaged public var rate: Double
-    @NSManaged public var date: Date?
-}
-
 @objc(CurrencyList)
 class CurrencyList: NSManagedObject {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CurrencyList> {

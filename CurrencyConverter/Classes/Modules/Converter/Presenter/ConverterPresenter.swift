@@ -65,7 +65,6 @@ extension ConverterPresenter: ConverterInteractorOutputProtocol {
         view?.showError(message: Common.translate("\(error)"))
     }
     
-    
     // INTERACTOR -> PRESENTER
     func setupCountryCode(code: String, for type: CountryCodeType) {
         view?.setupCountryCode(code, for: type)

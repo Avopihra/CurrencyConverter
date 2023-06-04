@@ -88,22 +88,18 @@ class ConverterView: UIViewController, UITextFieldDelegate, UINavigationControll
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.grayTitle, NSAttributedString.Key.font: UIFont.customFont()])
         textField.textColor = UIColor.black
         textField.font = UIFont.customFont()
-        //textField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .allTouchEvents)
+        textField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .allTouchEvents)
     }
     
-//    @objc func textFieldDidChange(textField: UITextField) {
-//        self.convertValue(textField.text ?? "", textField: textField)
-//        self.outputValueLabel?.textColor = UIColor.grayTitle
-//        self.outputValueLabel?.text = self.defaultCurrencyValue
-//    }
+    @objc func textFieldDidChange(textField: UITextField) {
+        self.convertValue(textField.text ?? "", textField: textField)
+    }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
            guard let text = textField.text else {
                return
            }
         self.convertValue(text, textField: textField)
-        self.outputValueLabel?.textColor = UIColor.grayTitle
-        self.outputValueLabel?.text = self.defaultCurrencyValue
        }
     
     private func convertValue(_ text: String, textField: UITextField) {
@@ -122,6 +118,9 @@ class ConverterView: UIViewController, UITextFieldDelegate, UINavigationControll
            !text.isEmpty {
             self.outputValueLabel?.textColor = UIColor.outputLabel
             presenter?.convertValue(text, from: sourceCode, to: targetCode)
+        } else {
+            self.outputValueLabel?.textColor = UIColor.grayTitle
+            self.outputValueLabel?.text = self.defaultCurrencyValue
         }
     }
     

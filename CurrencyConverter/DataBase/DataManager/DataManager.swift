@@ -57,7 +57,7 @@ class DataManager {
                 }
                 
                 self?.saveCurrencyList(currencyPairsList)
-                self?.getRateList(currencyPairsList)
+                self?.getRateList(currencyPairsList.swapAndAppendHalves())
                 let currencyList = currencyPairsList.splitAndSort()
                 completion(.success(currencyList))
             } catch {
@@ -68,8 +68,9 @@ class DataManager {
         task.resume()
     }
     
+    //MARK: - RateList
+    
     func getRateList(_ pairsList: [String]) {
-        //https://currate.ru/api/?get=rates&pairs=USDRUB,EURRUB,USDGBP,USDBYN,GBPAUD&key=18c8986887bd18e492bb98a6b7e75b8f
         let joinedPairs = pairsList.joined(separator: ",")
         let urlString = "\(baseURL)?get=rates&pairs=\(joinedPairs)&key=\(apiKey)"
         
@@ -103,65 +104,6 @@ class DataManager {
         task.resume()
     }
     
-    func convertCurrency(from sourceCurrency: String,
-                         to targetCurrency: String,
-                         completion: @escaping (Result<Double, Error>) -> Void) {
-        let urlString = "\(baseURL)?get=rates&pairs=\(sourceCurrency)\(targetCurrency)&key=\(apiKey)"
-        print("API: \(urlString)")
-        
-        guard let url = URL(string: urlString) else {
-            DispatchQueue.main.async {
-                completion(.failure(DataError.invalidURL))
-            }
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-            if let error = error {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
-            }
-            
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    completion(.failure(DataError.invalidData))
-                }
-                return
-            }
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                
-                guard let rates = json?["data"] as? [String: String],
-                      let rate = rates[sourceCurrency+targetCurrency] else {
-                    DispatchQueue.main.async {
-                        completion(.failure(DataError.invalidResponse))
-                    }
-                    return
-                }
-                
-                guard let conversionRate = Double(rate) else {
-                    DispatchQueue.main.async {
-                        completion(.failure(DataError.invalidConversionRate))
-                    }
-                    return
-                }
-                
-                self?.saveConversionRate(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency, rate: conversionRate)
-                DispatchQueue.main.async {
-                    completion(.success(conversionRate))
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-            }
-        }
-        
-        task.resume()
-    }
     
     // MARK: - Core Data Fetching support
     
@@ -180,8 +122,8 @@ class DataManager {
             
             //Проверяем, первая ли это итерация (известна хотя бы одна currency):
             if let source = sourceCurrency,
-                let target = targetCurrency,
-                (!source.isEmpty || !target.isEmpty) {
+               let target = targetCurrency,
+               (!source.isEmpty || !target.isEmpty) {
                 //Известна хотя бы одна currency - оставляем в парах только пересекающиеся значения:
                 let intersectingPairs = currencyPairsList.filter { $0.contains(source) || $0.contains(target) }
                 //Делим пересекающиеся элементы пополам и удаляем саму currency:
@@ -198,15 +140,23 @@ class DataManager {
             return []
         }
     }
-  
-    private func fetchConversionRate(completion: @escaping (Result<Double, Error>) -> Void) {
-        let conversionRateFetchRequest: NSFetchRequest<ConversionRate> = ConversionRate.fetchRequest()
+    
+    func fetchConversionRate(sourceCurrency: String?, targetCurrency: String?, completion: @escaping (Result<Double, Error>) -> Void) {
+        let rateListFetchRequest: NSFetchRequest<RateList> = RateList.fetchRequest()
         do {
             let context = persistentContainer?.viewContext
-            if let conversionRates = try context?.fetch(conversionRateFetchRequest) {
-                for conversionRate in conversionRates {
-                    let rate = conversionRate.rate
-                    completion(.success(rate))
+            if let cachedRateList = try context?.fetch(rateListFetchRequest) {
+                
+                let currencyPair = (sourceCurrency ?? "") + (targetCurrency ?? "")
+                
+                for rateList in cachedRateList {
+                    guard let exchangeRateString = rateList.rateDictionary[currencyPair],
+                          let exchangeRate = Double(exchangeRateString) else {
+                        
+                        completion(.failure(DataError.invalidConversionRate))
+                        return
+                    }
+                    completion(.success(exchangeRate))
                 }
             }
         } catch {
@@ -214,37 +164,24 @@ class DataManager {
             completion(.failure(DataError.invalidData))
         }
     }
-    
-    // MARK: - Core Data Saving support
+}
+
+// MARK: - Core Data Saving support
+
+extension DataManager {
     
     private func saveRateList(_ rateList: [String : String]) {
         guard let context = persistentContainer?.viewContext else {
-                return
-            }
-
-            let dictionaryEntity = RateList(context: context)
-            dictionaryEntity.rateDictionary = rateList
-
-            do {
-                try context.save()
-            } catch {
-                print("Error saving dictionary: \(error)")
-            }
-    }
-    
-    private func saveConversionRate(sourceCurrency: String, targetCurrency: String, rate: Double) {
-        persistentContainer?.performBackgroundTask { context in
-            
-            let conversionRate = ConversionRate(context: context)
-            conversionRate.sourceCurrency = sourceCurrency
-            conversionRate.targetCurrency = targetCurrency
-            conversionRate.rate = rate
-            
-            do {
-                try context.save()
-            } catch {
-                print("Failed to save conversion rate: \(error)")
-            }
+            return
+        }
+        
+        let dictionaryEntity = RateList(context: context)
+        dictionaryEntity.rateDictionary = rateList
+        
+        do {
+            try context.save()
+        } catch {
+            print("Error saving dictionary: \(error)")
         }
     }
     
@@ -261,4 +198,3 @@ class DataManager {
         }
     }
 }
-
