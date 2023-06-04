@@ -51,7 +51,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CE89CE1E2A25CB050002473D /* CurrencyConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurrencyConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE89CE1E2A25CB050002473D /* Currency Converter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Currency Converter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE89CE212A25CB050002473D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE89CE2D2A25CB080002473D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE89CE322A25CB080002473D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -118,7 +118,7 @@
 		CE89CE1F2A25CB050002473D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CE89CE1E2A25CB050002473D /* CurrencyConverter.app */,
+				CE89CE1E2A25CB050002473D /* Currency Converter.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -463,9 +463,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CE89CE1D2A25CB050002473D /* CurrencyConverter */ = {
+		CE89CE1D2A25CB050002473D /* Currency Converter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE89CE352A25CB080002473D /* Build configuration list for PBXNativeTarget "CurrencyConverter" */;
+			buildConfigurationList = CE89CE352A25CB080002473D /* Build configuration list for PBXNativeTarget "Currency Converter" */;
 			buildPhases = (
 				CE89CE1A2A25CB050002473D /* Sources */,
 				CE89CE1B2A25CB050002473D /* Frameworks */,
@@ -475,9 +475,9 @@
 			);
 			dependencies = (
 			);
-			name = CurrencyConverter;
+			name = "Currency Converter";
 			productName = CurrencyConverter;
-			productReference = CE89CE1E2A25CB050002473D /* CurrencyConverter.app */;
+			productReference = CE89CE1E2A25CB050002473D /* Currency Converter.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -508,7 +508,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CE89CE1D2A25CB050002473D /* CurrencyConverter */,
+				CE89CE1D2A25CB050002473D /* Currency Converter */,
 			);
 		};
 /* End PBXProject section */
@@ -769,7 +769,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CE89CE352A25CB080002473D /* Build configuration list for PBXNativeTarget "CurrencyConverter" */ = {
+		CE89CE352A25CB080002473D /* Build configuration list for PBXNativeTarget "Currency Converter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE89CE362A25CB080002473D /* Debug */,
