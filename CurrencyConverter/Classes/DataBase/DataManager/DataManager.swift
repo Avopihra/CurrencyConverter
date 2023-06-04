@@ -33,7 +33,7 @@ class DataManager {
     
     // MARK: - API Requests
     
-    func getCurrencyList(sourceCurrency: String?, targetCurrency: String?, completion: @escaping CompletionHandler<[String]>) {
+    func getCurrencyList(sourceCurrency: String?, targetCurrency: String?, completion: @escaping CompletionHandler<[Currency]>) {
         let urlString = "\(baseURL)?get=currency_list&key=\(apiKey)"
         
         guard let url = URL(string: urlString) else {
@@ -63,7 +63,7 @@ class DataManager {
                 self?.getRateList(currencyPairsList.swapAndAppendHalves())
                 
                 let currencyList = currencyPairsList.splitAndSort()
-                completion(.success(currencyList))
+                completion(.success(currencyList.map { Currency(code: $0) }))
             } catch {
                 completion(.failure(error))
             }
@@ -110,7 +110,7 @@ class DataManager {
     
     // MARK: - Core Data Fetching support
     
-    func fetchCurrencyList(sourceCurrency: String?, targetCurrency: String?) -> [String] {
+    func fetchCurrencyList(sourceCurrency: String?, targetCurrency: String?) -> [Currency] {
         let fetchRequest: NSFetchRequest<CurrencyList> = CurrencyList.fetchRequest()
         
         guard let context = persistentContainer?.viewContext else {
@@ -134,12 +134,12 @@ class DataManager {
                 //Делим пересекающиеся элементы пополам и удаляем саму currency:
                 let listForSpecificCurrency = intersectingPairs.splitAndSort()
                     .filter { !$0.contains(source) && !$0.contains(target) }
-                return listForSpecificCurrency
+                return listForSpecificCurrency.map{Currency(code: $0)}
             }
             
             //Это первая итерация (source и target неизвестны) - возвращаем все доступные значения из пар:
             let currencyList = currencyPairsList.splitAndSort()
-            return currencyList
+            return currencyList.map{Currency(code: $0)}
         } catch {
             print("Error fetching CurrencyList: \(error)")
             return []

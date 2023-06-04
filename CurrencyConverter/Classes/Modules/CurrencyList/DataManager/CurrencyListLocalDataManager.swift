@@ -15,7 +15,7 @@ class CurrencyListDataManager: CurrencyListDataManagerInputProtocol {
         self.dataManager = dataManager
     }
     
-    func loadCurrencyListArrayFromCache(sourceCurrency: String?, targetCurrency: String?) -> [String]? {
+    func loadCurrencyListArrayFromCache(sourceCurrency: String?, targetCurrency: String?) -> [Currency]? {
         
         var error: Error?
         
@@ -27,7 +27,7 @@ class CurrencyListDataManager: CurrencyListDataManagerInputProtocol {
               !currencyList.isEmpty else {
             
             //Если еще нет кэша - отправляем запрос:
-            var newCurrencyList: [String]?
+            var newCurrencyList: [Currency]?
             dataManager?.getCurrencyList(sourceCurrency: sourceCurrency,
                                          targetCurrency: targetCurrency, completion: { result in
                 switch result {

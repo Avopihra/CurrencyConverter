@@ -15,8 +15,7 @@ class CurrencyListView: UIViewController {
     var sourceCurrency: String?
     var targetCurrency: String?
     
-    private var currencyList: [String]?
-    
+    private var currencyList: [Currency]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +53,7 @@ extension CurrencyListView: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CurrencyListCell.self), for: indexPath) as? CurrencyListCell else {
             return UITableViewCell()
         }
-        cell.name = presenter?.currencyList?[indexPath.row]
+        cell.name = presenter?.currencyList?[indexPath.row].code
         return cell
     }
     
@@ -72,7 +71,7 @@ extension CurrencyListView: UITableViewDataSource, UITableViewDelegate {
 
 extension CurrencyListView: CurrencyListViewProtocol {
     
-    func displayCurrencyList(_ currencyList: [String]) {
+    func displayCurrencyList(_ currencyList: [Currency]) {
         self.currencyList = currencyList
         self.tableView?.reloadData()
     }

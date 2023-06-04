@@ -11,7 +11,7 @@ import UIKit
 
 protocol CurrencyListViewProtocol: AnyObject {
     var presenter: CurrencyListPresenterProtocol? { get set }
-    func displayCurrencyList(_ currencyList: [String])
+    func displayCurrencyList(_ currencyList: [Currency])
     func displayError(_ message: String)
 }
 
@@ -28,7 +28,7 @@ protocol CurrencyListPresenterProtocol: AnyObject {
     var view: CurrencyListViewProtocol? { get set }
     var interactor: CurrencyListInteractorInputProtocol? { get set }
     var router: CurrencyListRouterProtocol? { get set }
-    var currencyList: [String]? { get set }
+    var currencyList: [Currency]? { get set }
     var rowCount: Int? { get set }
     func didSelectCell(at index: Int)
     func loadCurrencyList(sourceCurrency: String?, targetCurrency: String?)
@@ -38,7 +38,7 @@ protocol CurrencyListPresenterProtocol: AnyObject {
 //MARK: - Interactor Output
 
 protocol CurrencyListInteractorOutputProtocol: AnyObject {
-    func currencyListLoaded(_ currencyList: [String])
+    func currencyListLoaded(_ currencyList: [Currency])
     func currencyListLoadFailed(_ error: Error)
 }
 
@@ -52,5 +52,5 @@ protocol CurrencyListInteractorInputProtocol: AnyObject {
 //MARK: - DATA
 
 protocol CurrencyListDataManagerInputProtocol: AnyObject {
-    func loadCurrencyListArrayFromCache(sourceCurrency: String?, targetCurrency: String?) -> [String]?
+    func loadCurrencyListArrayFromCache(sourceCurrency: String?, targetCurrency: String?) -> [Currency]?
 }

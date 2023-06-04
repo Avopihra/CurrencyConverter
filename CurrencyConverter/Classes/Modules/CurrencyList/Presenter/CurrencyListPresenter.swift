@@ -12,7 +12,7 @@ class CurrencyListPresenter: CurrencyListPresenterProtocol {
     var interactor: CurrencyListInteractorInputProtocol?
     var router: CurrencyListRouterProtocol?
     
-    var currencyList: [String]?
+    var currencyList: [Currency]?
     var rowCount: Int?
     
     init() {}
@@ -29,7 +29,7 @@ class CurrencyListPresenter: CurrencyListPresenterProtocol {
             return
         }
         let currency = currencyList[index]
-        router?.pop(from: view, with: currency)
+        router?.pop(from: view, with: currency.code)
     }
 }
 
@@ -37,7 +37,7 @@ extension CurrencyListPresenter: CurrencyListInteractorOutputProtocol {
     
     // INTERACTOR -> PRESENTER
     
-    func currencyListLoaded(_ currencyList: [String]) {
+    func currencyListLoaded(_ currencyList: [Currency]) {
         self.rowCount = currencyList.count
         self.currencyList = currencyList
         self.view?.displayCurrencyList(currencyList)

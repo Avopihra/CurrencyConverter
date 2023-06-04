@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE61752D2A2C8D52006D5006 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE61752C2A2C8D52006D5006 /* Currency.swift */; };
 		CE89CE222A25CB050002473D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE212A25CB050002473D /* AppDelegate.swift */; };
 		CE89CE2E2A25CB080002473D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE89CE2D2A25CB080002473D /* Assets.xcassets */; };
 		CE89CE5F2A25CE210002473D /* CurrencyListLocalDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE402A25CE200002473D /* CurrencyListLocalDataManager.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE61752C2A2C8D52006D5006 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		CE89CE1E2A25CB050002473D /* Currency Converter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Currency Converter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE89CE212A25CB050002473D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE89CE2D2A25CB080002473D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -107,6 +109,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE61752B2A2C8D45006D5006 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				CE61752C2A2C8D52006D5006 /* Currency.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		CE89CE152A25CB050002473D = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +146,7 @@
 		CE89CE382A25CCDF0002473D /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				CE61752B2A2C8D45006D5006 /* Entity */,
 				CE89CE4E2A25CE210002473D /* Converter */,
 				CE89CE3D2A25CE200002473D /* CurrencyList */,
 			);
@@ -561,6 +572,7 @@
 				CE89CE632A25CE210002473D /* CurrencyListView.swift in Sources */,
 				CE89CE882A25E1690002473D /* AnimationManager.swift in Sources */,
 				CEF8BEC62A28902A00F58150 /* Date+Extension.swift in Sources */,
+				CE61752D2A2C8D52006D5006 /* Currency.swift in Sources */,
 				CE89CE862A25E1150002473D /* AlertManager.swift in Sources */,
 				CEF8BEBF2A285F6D00F58150 /* CurrencyListCell.swift in Sources */,
 				CE89CE622A25CE210002473D /* CurrencyListRouter.swift in Sources */,
