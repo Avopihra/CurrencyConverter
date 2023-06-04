@@ -33,7 +33,7 @@ class ConverterView: UIViewController, UITextFieldDelegate, UINavigationControll
     
     private func setupViewAppearance() {
         self.hideKeyboardWhenTappedAround()
-        self.navigationItem.setTitle(text: Common.translate("Converter"))
+        self.navigationItem.setTitle(text: Common.translate("Converter.Converter"))
         self.setupCodeViewsAppearance()
         self.setupTextField()
         self.setupOutputValueLabel()
@@ -84,6 +84,7 @@ class ConverterView: UIViewController, UITextFieldDelegate, UINavigationControll
         }
         textField.delegate = self
         textField.backgroundColor = UIColor.clear
+        textField.keyboardType = .phonePad
         textField.attributedPlaceholder = NSAttributedString(string: self.defaultCurrencyValue,
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.grayTitle, NSAttributedString.Key.font: UIFont.customFont()])
         textField.textColor = UIColor.black
@@ -96,29 +97,33 @@ class ConverterView: UIViewController, UITextFieldDelegate, UINavigationControll
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
-           guard let text = textField.text else {
-               return
-           }
+        guard let text = textField.text else {
+            return
+        }
         self.convertValue(text, textField: textField)
-       }
+    }
     
     private func convertValue(_ text: String, textField: UITextField) {
         guard let sourceView = self.sourceCodeView,
-           let targetView = self.targetCodeView,
-           let sourceCode = sourceView.title,
-           let targetCode = targetView.title,
-           sourceView.isFilled,
-           targetView.isFilled  else {
+              let targetView = self.targetCodeView,
+              let sourceCode = sourceView.title,
+              let targetCode = targetView.title,
+              sourceView.isFilled,
+              targetView.isFilled  else {
             textField.resignFirstResponder()
+            self.refreshButton?.isAvailable = false
             self.sourceCodeView?.shake()
             self.targetCodeView?.shake()
             return
         }
         if let text = textField.text,
            !text.isEmpty {
+            self.refreshButton?.isAvailable = true
+            HapticManager.feedback(.light)
             self.outputValueLabel?.textColor = UIColor.outputLabel
             presenter?.convertValue(text, from: sourceCode, to: targetCode)
         } else {
+            self.refreshButton?.isAvailable = false
             self.outputValueLabel?.textColor = UIColor.grayTitle
             self.outputValueLabel?.text = self.defaultCurrencyValue
         }
@@ -139,18 +144,18 @@ class ConverterView: UIViewController, UITextFieldDelegate, UINavigationControll
         }
         button.layer.cornerRadius = 8
         let titleLabel = UILabel()
-        titleLabel.attributedText = NSAttributedString(string:  Common.translate("Refresh"),
+        titleLabel.attributedText = NSAttributedString(string:  Common.translate("Converter.Refresh"),
                                                        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.customFont()])
         
         
         button.setAttributedTitle(titleLabel.attributedText, for: .normal)
+        button.isAvailable = false
     }
     
     @objc func refreshButtonTapped() {
         guard let textField = self.inputValueTextField else {
             return
         }
-        
         self.convertValue(textField.text ?? "", textField: textField)
     }
     

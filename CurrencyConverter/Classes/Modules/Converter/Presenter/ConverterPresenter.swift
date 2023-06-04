@@ -8,7 +8,7 @@ import Foundation
 import UIKit
 
 class ConverterPresenter: ConverterPresenterProtocol {
-   
+    
     weak var view: ConverterViewProtocol?
     var interactor: ConverterInteractorInputProtocol?
     var router: ConverterRouterProtocol?
@@ -62,7 +62,7 @@ extension ConverterPresenter: ConverterInteractorOutputProtocol {
     }
     
     func converteFailed(_ error: Error) {
-        view?.showError(message: Common.translate("\(error)"))
+        view?.showError(message: Common.translate("Error.SomethingWentWrong"))
     }
     
     // INTERACTOR -> PRESENTER

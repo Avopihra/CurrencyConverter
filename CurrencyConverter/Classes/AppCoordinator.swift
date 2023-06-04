@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 class AppCoordinator {
-        
+    
     var converterRouter = ConverterRouter()
     private let window: UIWindow
     private var persistentContainer: NSPersistentContainer?
@@ -21,7 +21,7 @@ class AppCoordinator {
     }
     
     //MARK: - Build Modules
-
+    
     func installRootViewController() {
         converterRouter.presentConverterModule(fromView: window)
     }
@@ -44,16 +44,16 @@ class AppCoordinator {
         converterRouter.baseRouter = baseRouter
         converterRouter.currencyListRouter = currencyListRouter
         converterRouter.presenter = converterPresenter
- 
+        
         // CurrencyList
         let currencyListPresenter = CurrencyListPresenter()
         let currencyListInteractor = CurrencyListInteractor(dataManager: currencyListDataManager)
-
+        
         currencyListInteractor.presenter = currencyListPresenter
         currencyListPresenter.interactor = currencyListInteractor
         currencyListPresenter.router = currencyListRouter
- 
-        currencyListRouter.baseRouter = baseRouter //
+        
+        currencyListRouter.baseRouter = baseRouter
         currencyListRouter.presenter = currencyListPresenter
         currencyListRouter.converterPresenter = converterPresenter
     }

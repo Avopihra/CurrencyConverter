@@ -32,8 +32,6 @@
 		CE89CE882A25E1690002473D /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE872A25E1690002473D /* AnimationManager.swift */; };
 		CE89CE8C2A25E5380002473D /* CurrencyListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE89CE8B2A25E5380002473D /* CurrencyListView.xib */; };
 		CE89CE8E2A25E7E90002473D /* BaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE8D2A25E7E90002473D /* BaseRouter.swift */; };
-		CE89CE942A262FCE0002473D /* ConvertibleCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE932A262FCE0002473D /* ConvertibleCurrency.swift */; };
-		CE89CE972A2642A70002473D /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE89CE962A2642A70002473D /* Currency.swift */; };
 		CEF8BEAE2A275F3E00F58150 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF8BEAD2A275F3E00F58150 /* CustomView.swift */; };
 		CEF8BEB12A275F6D00F58150 /* CustomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEF8BEB02A275F6D00F58150 /* CustomView.xib */; };
 		CEF8BEB42A2854CB00F58150 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF8BEB32A2854CB00F58150 /* UIFont+Extension.swift */; };
@@ -80,8 +78,6 @@
 		CE89CE872A25E1690002473D /* AnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		CE89CE8B2A25E5380002473D /* CurrencyListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrencyListView.xib; sourceTree = "<group>"; };
 		CE89CE8D2A25E7E90002473D /* BaseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRouter.swift; sourceTree = "<group>"; };
-		CE89CE932A262FCE0002473D /* ConvertibleCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertibleCurrency.swift; sourceTree = "<group>"; };
-		CE89CE962A2642A70002473D /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		CEF8BEAD2A275F3E00F58150 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		CEF8BEB02A275F6D00F58150 /* CustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomView.xib; sourceTree = "<group>"; };
 		CEF8BEB32A2854CB00F58150 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
@@ -130,7 +126,6 @@
 		CE89CE202A25CB050002473D /* CurrencyConverter */ = {
 			isa = PBXGroup;
 			children = (
-				CE89CE922A25F8D10002473D /* DataBase */,
 				CE89CE392A25CCED0002473D /* Classes */,
 				CE89CE3C2A25CD3F0002473D /* Resouces */,
 				CE89CE3B2A25CD2A0002473D /* SupportedFiles */,
@@ -156,6 +151,7 @@
 				CE89CE3A2A25CD190002473D /* Common */,
 				CE89CE732A25DB860002473D /* Extensions */,
 				CE89CE382A25CCDF0002473D /* Modules */,
+				CE89CE922A25F8D10002473D /* DataBase */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -163,9 +159,9 @@
 		CE89CE3A2A25CD190002473D /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				CEF8BEAC2A275F1100F58150 /* CustomUI */,
 				CE89CE712A25DB090002473D /* Common.swift */,
 				CE89CE8D2A25E7E90002473D /* BaseRouter.swift */,
+				CEF8BEAC2A275F1100F58150 /* CustomUI */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -247,7 +243,6 @@
 			isa = PBXGroup;
 			children = (
 				CE89CE4D2A25CE200002473D /* CurrencyListInteractor.swift */,
-				CE89CE962A2642A70002473D /* Currency.swift */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -310,7 +305,6 @@
 			isa = PBXGroup;
 			children = (
 				CE89CE5E2A25CE210002473D /* ConverterInteractor.swift */,
-				CE89CE932A262FCE0002473D /* ConvertibleCurrency.swift */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -501,7 +495,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CE89CE192A25CB050002473D /* Build configuration list for PBXProject "CurrencyConverter" */;
+			buildConfigurationList = CE89CE192A25CB050002473D /* Build configuration list for PBXProject "Currency Converter" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -551,11 +545,9 @@
 				CE89CE222A25CB050002473D /* AppDelegate.swift in Sources */,
 				CE89CE792A25DBFC0002473D /* UIViewController+Extension.swift in Sources */,
 				CE89CE702A25CF5C0002473D /* AppCoordinator.swift in Sources */,
-				CE89CE942A262FCE0002473D /* ConvertibleCurrency.swift in Sources */,
 				CE89CE812A25DF010002473D /* ConverterView.swift in Sources */,
 				CEF8BEAE2A275F3E00F58150 /* CustomView.swift in Sources */,
 				CE89CE842A25DFE30002473D /* HapticManager.swift in Sources */,
-				CE89CE972A2642A70002473D /* Currency.swift in Sources */,
 				CEF8BEDB2A2BA19E00F58150 /* TouchableButton.swift in Sources */,
 				CE89CE8E2A25E7E90002473D /* BaseRouter.swift in Sources */,
 				CE89CE642A25CE210002473D /* CurrencyListProtocols.swift in Sources */,
@@ -707,6 +699,7 @@
 				DEVELOPMENT_TEAM = 3Y42CSS8U6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CurrencyConverter/SupportedFiles/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Currency Converter";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -740,6 +733,7 @@
 				DEVELOPMENT_TEAM = 3Y42CSS8U6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CurrencyConverter/SupportedFiles/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Currency Converter";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -766,7 +760,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CE89CE192A25CB050002473D /* Build configuration list for PBXProject "CurrencyConverter" */ = {
+		CE89CE192A25CB050002473D /* Build configuration list for PBXProject "Currency Converter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE89CE332A25CB080002473D /* Debug */,

@@ -16,7 +16,7 @@ class ConverterDataManager: ConverterDataManagerInputProtocol {
     
     func convertCurrency(from sourceCurrency: String, to targetCurrency: String, completion: @escaping (Result<Double, Error>) -> Void) {
         
-       dataManager?.fetchConversionRate(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency, completion:  { result in
+        dataManager?.fetchConversionRate(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency, completion:  { result in
             switch result {
             case .success(let rate):
                 completion(.success(rate))

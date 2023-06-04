@@ -13,8 +13,8 @@ import CoreData
 class RateList: NSManagedObject {
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<RateList> {
-            return NSFetchRequest<RateList>(entityName: "RateList")
-        }
+        return NSFetchRequest<RateList>(entityName: "RateList")
+    }
     @NSManaged
     var rateDictionary: [String: String]
 }
@@ -24,7 +24,7 @@ class CurrencyList: NSManagedObject {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CurrencyList> {
         return NSFetchRequest<CurrencyList>(entityName: "CurrencyList")
     }
-
+    
     @NSManaged
     public var list: NSArray?
 }

@@ -18,7 +18,7 @@ class CustomView: UIView {
     
     var type: CountryCodeType?
     var executeAction: (() -> Void)?
-        
+    
     var isSelected: Bool = false
     
     var isFilled: Bool = false {
@@ -55,6 +55,7 @@ class CustomView: UIView {
             return
         }
         AnimationManager.shake(self)
+        HapticManager.notify(.error)
     }
     
     func selectionHandle(twin: CustomView?) {
@@ -71,7 +72,7 @@ class CustomView: UIView {
         self.addSubview(view)
         self.setupView()
     }
-        
+    
     private func loadViewFromNib() -> UIView? {
         let nib = UINib(nibName: nibName, bundle: nil)
         return nib.instantiate(withOwner: self, options: nil).first as? UIView
@@ -84,6 +85,7 @@ class CustomView: UIView {
     }
     
     @objc private func viewTapped() {
+        HapticManager.feedback(.light)
         self.executeAction?()
     }
     

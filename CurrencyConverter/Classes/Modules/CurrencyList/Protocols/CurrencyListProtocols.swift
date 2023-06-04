@@ -7,43 +7,50 @@
 import Foundation
 import UIKit
 
+//MARK: - VIEW
+
 protocol CurrencyListViewProtocol: AnyObject {
     var presenter: CurrencyListPresenterProtocol? { get set }
-    // PRESENTER -> VIEW
     func displayCurrencyList(_ currencyList: [String])
     func displayError(_ message: String)
 }
 
+//MARK: - ROUTER
+
 protocol CurrencyListRouterProtocol: AnyObject {
     func push(from view: UIViewController, sourceCurrency: String?, targetCurrency: String?)
-    // PRESENTER -> router
     func pop(from view: CurrencyListViewProtocol?, with countryCode: String)
 }
+
+//MARK: - PRESENTER
 
 protocol CurrencyListPresenterProtocol: AnyObject {
     var view: CurrencyListViewProtocol? { get set }
     var interactor: CurrencyListInteractorInputProtocol? { get set }
     var router: CurrencyListRouterProtocol? { get set }
-    // VIEW -> PRESENTER
     var currencyList: [String]? { get set }
     var rowCount: Int? { get set }
     func didSelectCell(at index: Int)
     func loadCurrencyList(sourceCurrency: String?, targetCurrency: String?)
 }
 
+//MARK: - INTERACTOR
+//MARK: - Interactor Output
+
 protocol CurrencyListInteractorOutputProtocol: AnyObject {
-    // INTERACTOR -> PRESENTER
     func currencyListLoaded(_ currencyList: [String])
     func currencyListLoadFailed(_ error: Error)
 }
 
+//MARK: - Interactor Input
+
 protocol CurrencyListInteractorInputProtocol: AnyObject {
     var presenter: CurrencyListInteractorOutputProtocol? { get set }
-    // PRESENTER -> INTERACTOR
     func loadCurrencyList(sourceCurrency: String?, targetCurrency: String?)
 }
 
+//MARK: - DATA
+
 protocol CurrencyListDataManagerInputProtocol: AnyObject {
-    // INTERACTOR -> LOCALDATAMANAGER
     func loadCurrencyListArrayFromCache(sourceCurrency: String?, targetCurrency: String?) -> [String]?
 }

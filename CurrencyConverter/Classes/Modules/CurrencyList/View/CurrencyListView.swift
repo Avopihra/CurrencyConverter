@@ -17,17 +17,17 @@ class CurrencyListView: UIViewController {
     
     private var currencyList: [String]?
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.presenter?.loadCurrencyList(sourceCurrency: self.sourceCurrency, targetCurrency: self.targetCurrency)
         self.setupViewAppearance()
-     }
+    }
     
     //MARK: - Private Methods
-
+    
     private func setupViewAppearance() {
-        self.navigationItem.setTitle(text: Common.translate("Currency List"))
+        self.navigationItem.setTitle(text: Common.translate("List.CurrencyList"))
         self.setupTableView()
     }
     
@@ -59,18 +59,19 @@ extension CurrencyListView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        HapticManager.notify(.success)
         self.navigationController?.popViewController(animated: true, completion: {
             self.presenter?.didSelectCell(at: indexPath.row)
         })
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 55
     }
 }
 
 extension CurrencyListView: CurrencyListViewProtocol {
-
+    
     func displayCurrencyList(_ currencyList: [String]) {
         self.currencyList = currencyList
         self.tableView?.reloadData()

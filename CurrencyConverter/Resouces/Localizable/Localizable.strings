@@ -1,7 +1,6 @@
-/* 
-  Localizable.strings
-  CurrencyConverter
-
-  Created by Viktoriya on 01.06.2023.
-  
-*/
+"Alert.ok"                   = "OK";
+"Currency"                   = "Currency";
+"Converter.Converter"        = "Converter";
+"Converter.Refresh"          = "Refresh";
+"Error.SomethingWentWrong"   = "Something went wrong ...";
+"List.CurrencyList"          = "Currency List";

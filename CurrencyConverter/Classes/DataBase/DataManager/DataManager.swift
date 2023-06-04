@@ -19,10 +19,13 @@ enum DataError: Error {
 
 class DataManager {
     
+    typealias CompletionHandler<T> = (Result<T, Error>) -> Void
+    
     var persistentContainer: NSPersistentContainer?
     
     private let apiKey = "18c8986887bd18e492bb98a6b7e75b8f"
     private let baseURL = "https://currate.ru/api/"
+    private let interval: TimeInterval = 24*60*60
     
     init(persistentContainer: NSPersistentContainer) {
         self.persistentContainer = persistentContainer
@@ -30,7 +33,7 @@ class DataManager {
     
     // MARK: - API Requests
     
-    func getCurrencyList(sourceCurrency: String?, targetCurrency: String?, completion: @escaping (Result<[String], Error>) -> Void) {
+    func getCurrencyList(sourceCurrency: String?, targetCurrency: String?, completion: @escaping CompletionHandler<[String]>) {
         let urlString = "\(baseURL)?get=currency_list&key=\(apiKey)"
         
         guard let url = URL(string: urlString) else {
@@ -58,6 +61,7 @@ class DataManager {
                 
                 self?.saveCurrencyList(currencyPairsList)
                 self?.getRateList(currencyPairsList.swapAndAppendHalves())
+                
                 let currencyList = currencyPairsList.splitAndSort()
                 completion(.success(currencyList))
             } catch {
@@ -80,7 +84,7 @@ class DataManager {
         
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
             if let error = error {
-                print(error)
+                print(error.localizedDescription)
                 return
             }
             
@@ -95,9 +99,8 @@ class DataManager {
                 }
                 
                 self?.saveRateList(currencyPairsList)
-                print("RATE LIST: \(currencyPairsList)")
             } catch {
-                print(error)
+                print(error.localizedDescription)
             }
         }
         
@@ -113,7 +116,9 @@ class DataManager {
         guard let context = persistentContainer?.viewContext else {
             return []
         }
-        
+        self.cleanCache(interval: interval, context: context, entityName: CurrencyList.description(), completion: {
+            self.getCurrencyList(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency, completion: { _ in })
+        })
         do {
             //Достаем из контейнера currencyPairsList:
             let cachedArrayOfCurrencyPairsList = try context.fetch(fetchRequest)
@@ -141,26 +146,30 @@ class DataManager {
         }
     }
     
-    func fetchConversionRate(sourceCurrency: String?, targetCurrency: String?, completion: @escaping (Result<Double, Error>) -> Void) {
+    func fetchConversionRate(sourceCurrency: String?, targetCurrency: String?, completion: @escaping CompletionHandler<Double>) {
         let rateListFetchRequest: NSFetchRequest<RateList> = RateList.fetchRequest()
         do {
-            let context = persistentContainer?.viewContext
-            if let cachedRateList = try context?.fetch(rateListFetchRequest) {
-                
-                let currencyPair = (sourceCurrency ?? "") + (targetCurrency ?? "")
-                
-                for rateList in cachedRateList {
-                    guard let exchangeRateString = rateList.rateDictionary[currencyPair],
-                          let exchangeRate = Double(exchangeRateString) else {
-                        
-                        completion(.failure(DataError.invalidConversionRate))
-                        return
-                    }
-                    completion(.success(exchangeRate))
+            guard let context = persistentContainer?.viewContext else {
+                return
+            }
+            self.cleanCache(interval: interval, context: context, entityName: RateList.description(), completion:  {
+                self.getCurrencyList(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency, completion: { _ in })
+            })
+            
+            let cachedRateList = try context.fetch(rateListFetchRequest)
+            let currencyPair = (sourceCurrency ?? "") + (targetCurrency ?? "")
+            
+            for rateList in cachedRateList {
+                guard let exchangeRateString = rateList.rateDictionary[currencyPair],
+                      let exchangeRate = Double(exchangeRateString) else {
+                    
+                    completion(.failure(DataError.invalidConversionRate))
+                    return
                 }
+                completion(.success(exchangeRate))
             }
         } catch {
-            print("Error fetching ConversionRate objects: \(error)")
+            print("Error fetching ConversionRate: \(error)")
             completion(.failure(DataError.invalidData))
         }
     }
@@ -168,9 +177,9 @@ class DataManager {
 
 // MARK: - Core Data Saving support
 
-extension DataManager {
+private extension DataManager {
     
-    private func saveRateList(_ rateList: [String : String]) {
+    func saveRateList(_ rateList: [String : String]) {
         guard let context = persistentContainer?.viewContext else {
             return
         }
@@ -185,7 +194,7 @@ extension DataManager {
         }
     }
     
-    private func saveCurrencyList(_ currencyList: [String]) {
+    func saveCurrencyList(_ currencyList: [String]) {
         persistentContainer?.performBackgroundTask { context in
             let currencyListObj = CurrencyList(context: context)
             currencyListObj.list = currencyList as NSArray
@@ -196,5 +205,50 @@ extension DataManager {
                 print("Failed to save currency list: \(error)")
             }
         }
+    }
+}
+
+//MARK: - Core Data Cleaning Support
+
+private extension DataManager {
+    
+    func cleanCache(interval: TimeInterval, context: NSManagedObjectContext, entityName: String, completion: @escaping () -> Void) {
+        
+        let userDefaults = UserDefaults.standard
+        let lastCleanupDate = userDefaults.object(forKey: "LastCleanupDate") as? Date
+        
+        guard let lastDate = lastCleanupDate else {
+            saveLastCleanupDate(completion: {})
+            return
+        }
+        
+        let currentDate = Date()
+        
+        if currentDate.timeIntervalSince(lastDate) >= interval {
+            self.cleanCoreDataCache(context: context, entityName: entityName)
+            self.saveLastCleanupDate(completion: completion)
+        } else {
+            return
+        }
+    }
+    
+    func cleanCoreDataCache(context: NSManagedObjectContext, entityName: String) {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try context.execute(batchDeleteRequest)
+            try context.save()
+            print("CACHE: The cache was successfully cleared! The next iteration will update the data from the server")
+        } catch {
+            print("Failed to clean CoreData cache: \(error)")
+        }
+    }
+    
+    func saveLastCleanupDate(completion: @escaping () -> Void) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(Date(), forKey: "LastCleanupDate")
+        userDefaults.synchronize()
+        completion()
     }
 }

@@ -16,9 +16,6 @@ class ConverterRouter: ConverterRouterProtocol {
     
     func presentConverterModule(fromView window: AnyObject) {
         let view = converterModule() as! ConverterView
-        
-        // Connecting
-        
         presenter.view = view
         converterView = view
         baseRouter?.showRootViewController(view, window: window as! UIWindow)

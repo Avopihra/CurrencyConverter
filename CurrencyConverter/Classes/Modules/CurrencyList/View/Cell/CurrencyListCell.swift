@@ -16,7 +16,7 @@ class CurrencyListCell: UITableViewCell {
             self.setupCellAppearance()
         }
     }
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -27,6 +27,6 @@ class CurrencyListCell: UITableViewCell {
         self.backgroundColor = .white
         self.nameLabel?.textColor = .black
         self.nameLabel?.font = UIFont.customFont()
-        self.nameLabel?.text = name ?? "TEXT"
+        self.nameLabel?.text = name ?? ""
     }
 }

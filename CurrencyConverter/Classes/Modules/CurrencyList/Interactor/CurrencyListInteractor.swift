@@ -18,7 +18,7 @@ class CurrencyListInteractor: CurrencyListInteractorInputProtocol {
         if let currencyList = localDataManager.loadCurrencyListArrayFromCache(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency) {
                presenter?.currencyListLoaded(currencyList)
            } else {
-               let error = NSError(domain: "com.example.app", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to load currency list."])
+               let error = NSError(domain: "https://currate.ru/api/", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to load currency list."])
                presenter?.currencyListLoadFailed(error)
            }
        }

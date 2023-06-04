@@ -14,7 +14,7 @@ class TouchableButton: UIButton {
     private(set) var tapAnimationDuration: Double = 0.3
     private var eventOccuredTime: TimeInterval?
     private var eventDurationTime: TimeInterval = 0
-
+    
     private var needVibrationForLongTap = true
     var needVibrations: Bool = true
     var transformValue: CGFloat = 0.95
@@ -27,7 +27,7 @@ class TouchableButton: UIButton {
         tapAnimation()
         touchesBeganAction?()
     }
-
+    
     var touchesEndedAction: (()->Void)?
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -66,8 +66,8 @@ private extension TouchableButton {
         } completion: { _ in
             guard self.needVibrations,
                   self.needVibrationForLongTap else {
-                      return
-                  }
+                return
+            }
             self.makeVibration()
         }
     }

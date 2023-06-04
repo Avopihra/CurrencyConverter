@@ -21,7 +21,7 @@ class CurrencyListDataManager: CurrencyListDataManagerInputProtocol {
         
         let semaphore = DispatchSemaphore(value: 0)
         
-            //Если кэш уже создан - достаем из контейнера и сортируем в зависимости от того, первая ли это итерация (известна ли хотя бы одна currency):
+        //Если кэш уже создан - достаем из контейнера и сортируем в зависимости от того, первая ли это итерация (известна ли хотя бы одна currency):
         guard let currencyList = dataManager?.fetchCurrencyList(sourceCurrency: sourceCurrency,
                                                                 targetCurrency: targetCurrency),
               !currencyList.isEmpty else {
@@ -46,7 +46,6 @@ class CurrencyListDataManager: CurrencyListDataManagerInputProtocol {
                 print("Error loading currency list from cache: \(error)")
                 return nil
             }
-            
             return newCurrencyList
         }
         return currencyList

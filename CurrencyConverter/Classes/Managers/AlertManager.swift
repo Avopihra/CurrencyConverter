@@ -16,20 +16,4 @@ final class AlertManager {
         })
         controller.present(alert, animated: true)
     }
-    
-    static func showLoader(from controller: UIViewController, isShow: Bool = true) {
-        let alert = UIAlertController(title: nil, message: Common.translate("Alert.wait"), preferredStyle: .alert)
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = UIActivityIndicatorView.Style.gray
-        loadingIndicator.startAnimating()
-        if isShow {
-            alert.view.addSubview(loadingIndicator)
-            controller.present(alert, animated: true, completion: nil)
-        } else {
-            if let overlay = controller.presentedViewController, overlay is UIAlertController {
-                overlay.dismiss(animated: false, completion: nil)
-            }
-        }
-    }
 }
