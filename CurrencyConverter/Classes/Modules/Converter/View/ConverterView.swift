@@ -11,6 +11,7 @@ class ConverterView: UIViewController, UITextFieldDelegate, UINavigationControll
     
     @IBOutlet private weak var swapButton: UIButton?
     @IBOutlet private weak var refreshButton: CustomButton?
+    @IBOutlet private weak var refreshButtonBottomConstraint: NSLayoutConstraint?
     @IBOutlet private weak var sourceCodeView: CustomView?
     @IBOutlet private weak var targetCodeView: CustomView?
     @IBOutlet private weak var inputValueTextField: UITextField?
@@ -19,17 +20,27 @@ class ConverterView: UIViewController, UITextFieldDelegate, UINavigationControll
     var presenter: ConverterPresenterProtocol?
     private var defaultCurrencyValue = "0.0"
     
+    //MARK: - Lyfe Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
         self.setupViewAppearance()
     }
     
+    override func viewWillLayoutSubviews() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(sender:)),name: UIResponder.keyboardWillShowNotification, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(sender:)),name: UIResponder.keyboardWillHideNotification, object: nil);
+    }
+
+    
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         if viewController == navigationController.viewControllers.first {
             presenter?.setupCode(sourceCurrency: sourceCodeView?.title ?? "", targetCurrency: targetCodeView?.title ?? "")
         }
     }
+    
+    //MARK: - Private Methods
     
     private func setupViewAppearance() {
         self.hideKeyboardWhenTappedAround()
@@ -179,6 +190,8 @@ class ConverterView: UIViewController, UITextFieldDelegate, UINavigationControll
     }
 }
 
+//MARK: - ConverterViewProtocol
+
 extension ConverterView: ConverterViewProtocol {
     func setupCountryCode(_ code: String, for type: CountryCodeType) {
         switch type {
@@ -208,5 +221,28 @@ extension ConverterView: ConverterViewProtocol {
     
     func showError(message: String) {
         AlertManager.showErrorAlert(from: self, message: message)
+    }
+}
+
+extension ConverterView {
+    @objc func keyboardDidShow(sender: NSNotification) {
+        
+        let info = sender.userInfo!
+        let keyboardFrame: CGRect = (info[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        guard let sourceView = self.sourceCodeView,
+              let targetView = self.targetCodeView,
+              sourceView.isFilled,
+              targetView.isFilled  else {
+            return
+        }
+        UIView.animate(withDuration: 0.1) {
+            self.refreshButtonBottomConstraint?.constant = keyboardFrame.size.height
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc func keyboardDidHide(sender: NSNotification) {
+        self.refreshButtonBottomConstraint?.constant = 16
+        self.view.layoutIfNeeded()
     }
 }

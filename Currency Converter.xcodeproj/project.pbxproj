@@ -146,7 +146,6 @@
 		CE89CE382A25CCDF0002473D /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				CE61752B2A2C8D45006D5006 /* Entity */,
 				CE89CE4E2A25CE210002473D /* Converter */,
 				CE89CE3D2A25CE200002473D /* CurrencyList */,
 			);
@@ -161,6 +160,7 @@
 				CE89CE822A25DFB80002473D /* Managers */,
 				CE89CE3A2A25CD190002473D /* Common */,
 				CE89CE732A25DB860002473D /* Extensions */,
+				CE61752B2A2C8D45006D5006 /* Entity */,
 				CE89CE382A25CCDF0002473D /* Modules */,
 				CE89CE922A25F8D10002473D /* DataBase */,
 			);

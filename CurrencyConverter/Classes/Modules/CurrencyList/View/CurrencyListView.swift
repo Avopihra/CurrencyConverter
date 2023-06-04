@@ -17,6 +17,8 @@ class CurrencyListView: UIViewController {
     
     private var currencyList: [Currency]?
     
+    //MARK: - Lyfe Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.presenter?.loadCurrencyList(sourceCurrency: self.sourceCurrency, targetCurrency: self.targetCurrency)
@@ -68,6 +70,8 @@ extension CurrencyListView: UITableViewDataSource, UITableViewDelegate {
         return 55
     }
 }
+
+//MARK: - CurrencyListViewProtocol
 
 extension CurrencyListView: CurrencyListViewProtocol {
     
