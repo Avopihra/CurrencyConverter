@@ -1,6 +1,12 @@
-"Alert.ok"                   = "OK";
-"Currency"                   = "Currency";
-"Converter.Converter"        = "Converter";
-"Converter.Refresh"          = "Refresh";
-"Error.SomethingWentWrong"   = "Something went wrong ...";
-"List.CurrencyList"          = "Currency List";
+"Alert.ok"                      = "OK";
+"Currency"                      = "Currency";
+"Converter.Converter"           = "Converter";
+"Converter.Refresh"             = "Refresh";
+"List.CurrencyList"             = "Currency List";
+
+"Error.InvalidURL"              = "Invalid URL";
+"Error.InvalidData"             = "Invalid data";
+"Error.InvalidResponse"         = "Invalid response";
+"Error.InvalidConversionRate"   = "Invalid conversion rate";
+"Error.SomethingWentWrong"      = "Something went wrong ...";
+"Error.InternetConnectionError" = "Internet connection error";

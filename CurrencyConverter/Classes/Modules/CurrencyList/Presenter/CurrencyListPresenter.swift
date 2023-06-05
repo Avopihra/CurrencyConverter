@@ -44,6 +44,6 @@ extension CurrencyListPresenter: CurrencyListInteractorOutputProtocol {
     }
     
     func currencyListLoadFailed(_ error: Error) {
-        self.view?.displayError(error.localizedDescription)
+        self.view?.displayError(error)
     }
 }

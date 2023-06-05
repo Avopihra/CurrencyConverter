@@ -13,13 +13,21 @@ class CurrencyListInteractor: CurrencyListInteractorInputProtocol {
     init(dataManager: CurrencyListDataManagerInputProtocol) {
         self.localDataManager = dataManager
     }
-
+    
     func loadCurrencyList(sourceCurrency: String?, targetCurrency: String?) {
-        if let currencyList = localDataManager.loadCurrencyListArrayFromCache(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency) {
-               presenter?.currencyListLoaded(currencyList)
-           } else {
-               let error = NSError(domain: "https://currate.ru/api/", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to load currency list."])
-               presenter?.currencyListLoadFailed(error)
-           }
-       }
+        localDataManager.loadCurrencyListArrayFromCache(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency) { result in
+            switch result {
+            case .success(let currency):
+                if let list = currency {
+                    self.presenter?.currencyListLoaded(list)
+                } else {
+                    self.presenter?.currencyListLoadFailed(ErrorHandling.invalidData)
+                }
+            case .failure(let error):
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1, execute: {
+                    self.presenter?.currencyListLoadFailed(error)
+                })
+            }
+        }
+    }
 }

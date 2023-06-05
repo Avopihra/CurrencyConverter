@@ -26,7 +26,7 @@ class ConverterInteractor: ConverterInteractorInputProtocol {
                     self.presenter?.valueConverted("\(newValue)")
                 }
             case .failure(let error):
-                self.presenter?.converteFailed(error)
+               self.presenter?.converteFailed(error)
             }
         }
     }

@@ -10,7 +10,8 @@ import CoreData
 import UIKit
 
 // MARK: - Error Handling
-enum DataError: Error {
+enum ErrorHandling: Error {
+    case internetError
     case invalidURL
     case invalidData
     case invalidResponse
@@ -19,7 +20,7 @@ enum DataError: Error {
 
 class DataManager {
     
-    typealias CompletionHandler<T> = (Result<T, Error>) -> Void
+    
     
     var persistentContainer: NSPersistentContainer?
     
@@ -33,29 +34,29 @@ class DataManager {
     
     // MARK: - API Requests
     
-    func getCurrencyList(sourceCurrency: String?, targetCurrency: String?, completion: @escaping CompletionHandler<[Currency]>) {
+    func getCurrencyList(sourceCurrency: String?, targetCurrency: String?, completion: @escaping Common.CompletionHandler<[Currency]>) {
         let urlString = "\(baseURL)?get=currency_list&key=\(apiKey)"
         
         guard let url = URL(string: urlString) else {
-            completion(.failure(DataError.invalidURL))
+            completion(.failure(ErrorHandling.invalidURL))
             return
         }
         
         let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-            if let error = error {
-                completion(.failure(error))
+            if let _ = error {
+                completion(.failure(ErrorHandling.internetError))
                 return
             }
             
             guard let data = data else {
-                completion(.failure(DataError.invalidData))
+                completion(.failure(ErrorHandling.invalidData))
                 return
             }
             
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                 guard let currencyPairsList = json?["data"] as? [String] else {
-                    completion(.failure(DataError.invalidResponse))
+                    completion(.failure(ErrorHandling.invalidResponse))
                     return
                 }
                 
@@ -110,11 +111,11 @@ class DataManager {
     
     // MARK: - Core Data Fetching support
     
-    func fetchCurrencyList(sourceCurrency: String?, targetCurrency: String?) -> [Currency] {
+    func fetchCurrencyList(sourceCurrency: String?, targetCurrency: String?, completion: @escaping Common.CompletionHandler<[Currency]>) {
         let fetchRequest: NSFetchRequest<CurrencyList> = CurrencyList.fetchRequest()
         
         guard let context = persistentContainer?.viewContext else {
-            return []
+            return
         }
         self.cleanCache(interval: interval, context: context, entityName: CurrencyList.description(), completion: {
             self.getCurrencyList(sourceCurrency: sourceCurrency, targetCurrency: targetCurrency, completion: { _ in })
@@ -134,19 +135,25 @@ class DataManager {
                 //Делим пересекающиеся элементы пополам и удаляем саму currency:
                 let listForSpecificCurrency = intersectingPairs.splitAndSort()
                     .filter { !$0.contains(source) && !$0.contains(target) }
-                return listForSpecificCurrency.map{Currency(code: $0)}
+                let resultList = listForSpecificCurrency.map{Currency(code: $0)}
+                completion(.success(resultList))
+                return
             }
             
             //Это первая итерация (source и target неизвестны) - возвращаем все доступные значения из пар:
-            let currencyList = currencyPairsList.splitAndSort()
-            return currencyList.map{Currency(code: $0)}
+            let currencyList = currencyPairsList.splitAndSort().map{Currency(code: $0)}
+            guard !currencyList.isEmpty else {
+                completion(.failure(ErrorHandling.internetError))
+                return
+            }
+            completion(.success(currencyList))
         } catch {
             print("Error fetching CurrencyList: \(error)")
-            return []
+                completion(.failure(ErrorHandling.invalidData))
         }
     }
     
-    func fetchConversionRate(sourceCurrency: String?, targetCurrency: String?, completion: @escaping CompletionHandler<Double>) {
+    func fetchConversionRate(sourceCurrency: String?, targetCurrency: String?, completion: @escaping Common.CompletionHandler<Double>) {
         let rateListFetchRequest: NSFetchRequest<RateList> = RateList.fetchRequest()
         do {
             guard let context = persistentContainer?.viewContext else {
@@ -163,14 +170,14 @@ class DataManager {
                 guard let exchangeRateString = rateList.rateDictionary[currencyPair],
                       let exchangeRate = Double(exchangeRateString) else {
                     
-                    completion(.failure(DataError.invalidConversionRate))
+                    completion(.failure(ErrorHandling.invalidConversionRate))
                     return
                 }
                 completion(.success(exchangeRate))
             }
         } catch {
             print("Error fetching ConversionRate: \(error)")
-            completion(.failure(DataError.invalidData))
+            completion(.failure(ErrorHandling.invalidData))
         }
     }
 }

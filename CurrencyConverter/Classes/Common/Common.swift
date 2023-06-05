@@ -10,6 +10,8 @@ import UIKit
 
 final class Common {
     
+    typealias CompletionHandler<T> = (Result<T, Error>) -> Void
+    
     static func translate(_ key: String) -> String {
         return NSLocalizedString(key, comment: "")
     }

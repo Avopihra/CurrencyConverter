@@ -9,7 +9,7 @@ import UIKit
 
 class CurrencyListView: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView?
     
     var presenter: CurrencyListPresenterProtocol?
     var sourceCurrency: String?
@@ -20,7 +20,7 @@ class CurrencyListView: UIViewController {
     //MARK: - Lyfe Cycle
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad()        
         self.presenter?.loadCurrencyList(sourceCurrency: self.sourceCurrency, targetCurrency: self.targetCurrency)
         self.setupViewAppearance()
     }
@@ -74,14 +74,13 @@ extension CurrencyListView: UITableViewDataSource, UITableViewDelegate {
 //MARK: - CurrencyListViewProtocol
 
 extension CurrencyListView: CurrencyListViewProtocol {
-    
     func displayCurrencyList(_ currencyList: [Currency]) {
         self.currencyList = currencyList
         self.tableView?.reloadData()
     }
     
-    func displayError(_ message: String) {
+    func displayError(_ error: Error) {
         HapticManager.notify(.error)
-        AlertManager.showErrorAlert(from: self, message: message)
+        AlertManager.showErrorAlert(for: error, from: self)
     }
 }

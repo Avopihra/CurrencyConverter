@@ -18,6 +18,7 @@ class CurrencyListRouter: CurrencyListRouterProtocol {
     
     func currencyListModule(sourceCurrency: String?, targetCurrency: String?) -> UIViewController {
         let view = CurrencyListView.loadFromNib()
+        presenter.view = view
         view.presenter = presenter
         view.sourceCurrency = sourceCurrency
         view.targetCurrency = targetCurrency

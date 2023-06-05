@@ -14,7 +14,7 @@ protocol ConverterViewProtocol: AnyObject {
     func setupCountryCode(_ code: String, for type: CountryCodeType)
     func updateCountryCode(_ code: String, for type: CountryCodeType)
     func updateOutput(value: String)
-    func showError(message: String)
+    func showError(_ error: Error)
 }
 
 //MARK: - ROUTER

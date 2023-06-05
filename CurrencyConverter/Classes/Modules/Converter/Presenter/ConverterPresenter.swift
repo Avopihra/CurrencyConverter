@@ -62,7 +62,7 @@ extension ConverterPresenter: ConverterInteractorOutputProtocol {
     }
     
     func converteFailed(_ error: Error) {
-        view?.showError(message: Common.translate("Error.SomethingWentWrong"))
+        view?.showError(error)
     }
     
     // INTERACTOR -> PRESENTER

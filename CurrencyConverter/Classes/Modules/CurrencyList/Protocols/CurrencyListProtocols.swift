@@ -12,7 +12,7 @@ import UIKit
 protocol CurrencyListViewProtocol: AnyObject {
     var presenter: CurrencyListPresenterProtocol? { get set }
     func displayCurrencyList(_ currencyList: [Currency])
-    func displayError(_ message: String)
+    func displayError(_ error: Error)
 }
 
 //MARK: - ROUTER
@@ -52,5 +52,5 @@ protocol CurrencyListInteractorInputProtocol: AnyObject {
 //MARK: - DATA
 
 protocol CurrencyListDataManagerInputProtocol: AnyObject {
-    func loadCurrencyListArrayFromCache(sourceCurrency: String?, targetCurrency: String?) -> [Currency]?
+    func loadCurrencyListArrayFromCache(sourceCurrency: String?, targetCurrency: String?, completion: @escaping Common.CompletionHandler<[Currency]?>)
 }

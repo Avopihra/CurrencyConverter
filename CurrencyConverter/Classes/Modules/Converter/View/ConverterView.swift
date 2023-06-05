@@ -219,8 +219,8 @@ extension ConverterView: ConverterViewProtocol {
         self.outputValueLabel?.text = value
     }
     
-    func showError(message: String) {
-        AlertManager.showErrorAlert(from: self, message: message)
+    func showError(_ error: Error) {
+        AlertManager.showErrorAlert(for: error, from: self)
     }
 }
 
